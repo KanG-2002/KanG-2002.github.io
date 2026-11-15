@@ -24,7 +24,7 @@ body.admin #loginBtn{display:none}
 .bgph .up{top:12px;bottom:auto}
 body.admin .up{display:block}
 .hero,.banner{position:relative;display:flex;align-items:center;color:white;background:#405943;overflow:hidden}
-.hero::after,.banner::after{content:'';position:absolute;inset:0;background:#0005}
+.hero::after,.banner::after{content:'';position:absolute;inset:0;background:#0005;pointer-events:none}
 .hero{height:600px;padding:10%}
 .hero h1{font-size:50px}
 .in,.bt{position:relative;z-index:2}
@@ -101,7 +101,6 @@ footer{background:#263c30;color:white;text-align:center;padding:45px}
 </nav>
 </header>
 
-<!-- 홈 -->
 <div class="page on" id="p-home">
 <div class="hero" id="hero"><div class="in">
 <p>DISCOVER THE LAND OF BLUE SKY</p>
@@ -114,7 +113,6 @@ footer{background:#263c30;color:white;text-align:center;padding:45px}
 </div></div></div>
 </div>
 
-<!-- 소개 -->
 <div class="page" id="p-about"><section>
 <div class="heading"><h2>ABOUT MONGOLIA DREAM</h2></div>
 <div class="about">
@@ -125,14 +123,12 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 <div style="text-align:center"><button class="back" onclick="go('home')">← 홈으로</button></div>
 </section></div>
 
-<!-- 패키지 목록 -->
 <div class="page" id="p-packages"><section style="background:#f0eee7">
 <div class="heading"><h2>OUR TRAVEL PACKAGES</h2><p>당신이 꿈꾸는 몽골을 선택하세요.</p></div>
 <div class="cards" id="cardList"></div>
 <div style="text-align:center;margin-top:25px"><button class="back" onclick="go('home')">← 홈으로</button></div>
 </section></div>
 
-<!-- 패키지 상세 -->
 <div class="page" id="p-detail">
 <div class="banner" id="dBanner"></div>
 <div class="content">
@@ -153,7 +149,6 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 </div>
 </div></div>
 
-<!-- 인원 선택 + 가격표 -->
 <div class="page" id="p-people"><div class="content">
 <button class="back" onclick="go('detail')">← 일정으로</button>
 <h2>인원 수 선택</h2>
@@ -162,21 +157,18 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 <div id="priceBox"></div>
 </div></div>
 
-<!-- 예약 입력 -->
 <div class="page" id="p-book"><div class="content">
 <h2>예약 정보 입력</h2>
 <div class="notice">학교 프로젝트용 가상 예약입니다. 여권번호 등 민감한 개인정보는 입력하지 마세요.</div>
 <div id="bookForm"></div>
 </div></div>
 
-<!-- 예약 완료 -->
 <div class="page" id="p-done"><div class="content" style="text-align:center">
 <h2 style="color:#405943">예약이 접수되었습니다 ✔</h2>
 <div id="doneInfo"></div>
 <button class="back" onclick="go('home')">홈으로</button>
 </div></div>
 
-<!-- 리뷰 -->
 <div class="page" id="p-reviews">
 <div class="banner" id="rBanner"></div>
 <div class="content">
@@ -185,7 +177,6 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 <div id="allList"></div>
 </div></div>
 
-<!-- 관리자: 예약 내역 -->
 <div class="page" id="p-admin"><div class="content">
 <h2>예약 내역 (관리자 전용)</h2>
 <div class="notice">이 브라우저에 저장된 예약만 표시됩니다.</div>
@@ -199,7 +190,6 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 <p>© 2026 MONGOLIA DREAM. School Project.</p>
 </footer>
 
-<!-- 리뷰 모달 -->
 <div class="modal" id="modal" onclick="if(event.target===this)this.style.display='none'">
 <div class="modalbox">
 <button class="close" onclick="$('modal').style.display='none'">×</button>
@@ -207,7 +197,6 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 <h2 id="mTitle"></h2><p id="mText"></p><p id="mAuthor"></p>
 </div></div>
 
-<!-- 관리자 로그인 모달 -->
 <div class="modal" id="loginModal" onclick="if(event.target===this)this.style.display='none'">
 <div class="modalbox">
 <button class="close" onclick="$('loginModal').style.display='none'">×</button>
@@ -218,21 +207,26 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 
 <script>
 /* ===== 설정 (여기만 수정하세요) ===== */
-const ADMIN_PW='mongolia2026';   // ★ 꼭 바꾸세요
-const FORMSPREE='';              // 예약을 내 메일로 받으려면 Formspree 주소 입력 (예: 'https://formspree.io/f/abcdwxyz')
-const FIXED={};                  // 모든 방문자에게 보일 사진: {hero:'images/hero.jpg', card_gobi:'images/gobi.jpg'}
-const PRICE=100;                 // 1인 1일 여행비($)
+var ADMIN_PW='mongolia2026';   // ★ 꼭 바꾸세요
+var FORMSPREE='';              // 예약을 내 메일로 받으려면 Formspree 주소 입력
+var FIXED={};                  // 모든 방문자에게 보일 사진: {hero:'images/hero.jpg', card_gobi:'images/gobi.jpg'}
+var PRICE=100;                 // 1인 1일 여행비($)
 
 /* ===== 기본 도구 ===== */
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
-let store=ld('md_photos',{}),bookings=ld('md_bookings',[]);
-const today=new Date().toISOString().slice(0,10);
-let cur=null,nights=0,ppl=0,step=1,B={};
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+/* 저장 공간이 막힌 환경에서도 멈추지 않게 보호 */
+var mem={};
+function sget(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}}
+function sset(k,v){mem[k]=v;try{localStorage.setItem(k,v);return true}catch(e){return false}}
+function ld(k,d){try{return JSON.parse(sget(k))||d}catch(e){return d}}
+var store=ld('md_photos',{}),bookings=ld('md_bookings',[]);
+var isAdmin=false;
+var today=new Date().toISOString().slice(0,10);
+var cur=null,nights=0,ppl=0,step=1,B={};
 
 /* ===== 데이터 ===== */
-const data={
+var data={
 gobi:{title:"고비사막 여행",subtitle:"황금빛 모래언덕에서 만나는 특별한 순간",kw:"gobi,desert",seed:11,
 heading:"THE MAGIC OF GOBI DESERT",
 desc:"끝없이 펼쳐진 황금빛 사막. 낙타를 타고 모래언덕을 거닐며 대자연의 웅장함을 경험하세요. 밤에는 쏟아지는 별빛을 감상할 수 있습니다.",
@@ -252,8 +246,8 @@ style:"힐링 · 자연 탐방",act:"호수 보트 · 트레킹",
 start:["울란바토르 출발","ulaanbaatar,city"],end:["울란바토르 귀환","ulaanbaatar"],
 mid:[["무릉 도착 및 호수 이동","murun,steppe"],["후브스굴 호수 탐방","khuvsgul,lake"],["호수 보트 체험","lake,boat"],["숲속 트레킹","khuvsgul,forest"],["자유시간과 호숫가 휴식","khuvsgul,shore"]]}
 };
-const names={gobi:"고비사막",central:"중부 몽골",lake:"후브스굴"};
-const reviews=[
+var names={gobi:"고비사막",central:"중부 몽골",lake:"후브스굴"};
+var reviews=[
 {id:1,type:"gobi",name:"김민지",title:"평생 잊지 못할 사막의 밤!",short:"사막에서 본 별은 정말 아름다웠어요.",text:"고비사막 여행은 제 인생에서 가장 특별한 경험이었습니다. 끝없이 펼쳐진 모래언덕과 낙타 체험도 좋았지만 밤하늘에 가득했던 별들이 가장 기억에 남아요."},
 {id:2,type:"central",name:"이서연",title:"몽골의 자연을 온몸으로 느꼈어요.",short:"초원에서 보낸 시간이 행복했어요.",text:"초원에서 말을 타고 게르에서 잠을 잤던 경험이 정말 특별했습니다. 도시에서는 느낄 수 없었던 여유와 자유를 느꼈어요."},
 {id:3,type:"lake",name:"박준호",title:"에메랄드빛 호수에 반했어요.",short:"후브스굴의 물빛이 기억나요.",text:"사진보다 실제 호수가 훨씬 아름다웠습니다. 맑은 공기와 조용한 자연 속에서 힐링할 수 있었어요."},
@@ -263,17 +257,148 @@ const reviews=[
 ];
 
 /* ===== 페이지 이동 ===== */
-function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));$('p-'+p).classList.add('on');window.scrollTo(0,0)}
+function go(p){
+var ps=document.querySelectorAll('.page');
+for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
+$('p-'+p).classList.add('on');window.scrollTo(0,0)}
 
 /* ===== 사진 (우선순위: 관리자 업로드 > FIXED > 인터넷 사진 > 준비 중) ===== */
-function photo(key,kw,seed,cls=''){
-const src=store[key]||FIXED[key]||`https://loremflickr.com/${cls?1400:800}/${cls?700:500}/mongolia,${kw}?lock=${seed}`;
-return `<div class="ph ${cls}"><span class="ph-t">사진 준비 중</span><img src="${src}" alt="" onerror="this.remove()"><label class="up" onclick="event.stopPropagation()">📷 사진 변경<input type="file" accept="image/*" hidden onchange="upload('${key}',this)"></label></div>`}
-function upload(key,inp){
-const f=inp.files[0];if(!f||!sessionStorage.md_admin)return;
-const r=new FileReader();
-r.onload=e=>{const im=new Image();
-im.onload=()=>{const k=Math.min(1,1200/im.width),c=document.createElement('canvas');
+function photo(key,kw,seed,cls){
+cls=cls||'';
+var src=store[key]||FIXED[key]||('https://loremflickr.com/'+(cls?1400:800)+'/'+(cls?700:500)+'/mongolia,'+kw+'?lock='+seed);
+return '<div class="ph '+cls+'"><span class="ph-t">사진 준비 중</span><img src="'+src+'" alt="" onerror="this.remove()"><label class="up" onclick="event.stopPropagation()">📷 사진 변경<input type="file" accept="image/*" hidden data-key="'+esc(key)+'" onchange="upload(this)"></label></div>'}
+function upload(inp){
+var key=inp.getAttribute('data-key'),f=inp.files[0];
+if(!f||!isAdmin)return;
+var r=new FileReader();
+r.onload=function(e){var im=new Image();
+im.onload=function(){var k=Math.min(1,1200/im.width),c=document.createElement('canvas');
 c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-const d=c.toDataURL('image/jpeg',.75);store[key]=d;
-try{localStorage.setItem('md_phot
+var d=c.toDataURL('image/jpeg',.75);store[key]=d;
+if(!sset('md_photos',JSON.stringify(store)))alert('이 환경에서는 사진이 저장되지 않아요. 새로고침하면 사라져요.');
+var w=inp.closest('.ph'),t=w.querySelector('img');
+if(!t){t=document.createElement('img');w.insertBefore(t,w.firstChild)}t.src=d};
+im.src=e.target.result};
+r.readAsDataURL(f)}
+
+/* ===== 패키지 ===== */
+function renderPackages(){
+var h='',i=0;
+for(var id in data){var p=data[id];
+h+='<div class="card" onclick="detail(\''+id+'\')">'+photo('card_'+id,p.kw,40+i)+'<div class="tx"><h3>0'+(i+1)+'. '+p.title+'</h3><p>'+p.subtitle+'</p><span class="more">자세히 보기 →</span></div></div>';i++}
+$('cardList').innerHTML=h}
+
+function detail(id){
+cur=id;nights=0;var p=data[id];
+$('dBanner').innerHTML=photo('banner_'+id,p.kw,p.seed+5,'bgph')+'<div class="bt"><h1>'+p.title+'</h1><p>'+p.subtitle+'</p></div>';
+$('dHead').textContent=p.heading;$('dDesc').textContent=p.desc;
+$('dStyle').textContent=p.style;$('dAct').textContent=p.act;
+var d='';[3,4,5,6].forEach(function(n){d+='<button class="dur" id="d'+n+'" onclick="pick('+n+')">'+n+'박 '+(n+1)+'일</button>'});
+$('durs').innerHTML=d+'<button class="dur" id="d0" onclick="pick(0)">기타 문의</button>';
+$('plan').innerHTML='';$('plan').classList.add('hidden');$('bookBtnWrap').classList.add('hidden');
+$('pkgRev').innerHTML=reviews.filter(function(r){return r.type===id}).map(reviewCard).join('');
+$('pkgRev').classList.add('hidden');$('revBtn').textContent='이 패키지 리뷰 보기';
+go('detail')}
+
+function toggleRev(){var b=$('pkgRev');b.classList.toggle('hidden');$('revBtn').textContent=b.classList.contains('hidden')?'이 패키지 리뷰 보기':'리뷰 닫기'}
+
+function pick(n){
+var bs=document.querySelectorAll('.dur');for(var i=0;i<bs.length;i++)bs[i].classList.remove('on');
+$('d'+n).classList.add('on');$('plan').classList.remove('hidden');
+if(n===0){nights=0;$('bookBtnWrap').classList.add('hidden');
+$('plan').innerHTML='<div class="inquiry"><h3>기타 문의</h3>7박 이상 장기 여행, 단체 여행, 맞춤 일정 등은 별도로 문의해 주세요.<br>📧 contact@mongoliadream.example<br>📞 02-1234-5678 (평일 10:00 ~ 18:00)</div>';return}
+nights=n;var p=data[cur];
+var L=[p.start].concat(p.mid.slice(0,n-1),[p.end]);
+$('plan').innerHTML=L.map(function(s,i){return '<div class="day">'+photo('day_'+cur+'_'+s[0],s[1],100+i*3+p.seed)+'<div class="tx"><h3>'+(i+1)+'일차</h3><p>'+s[0]+'</p></div></div>'}).join('');
+$('bookBtnWrap').classList.remove('hidden')}
+
+/* ===== 인원 선택 + 가격표 ===== */
+function total(){return PRICE*(nights+1)*ppl}
+function goPeople(){
+ppl=0;$('pplTitle').textContent=names[cur]+' · '+nights+'박 '+(nights+1)+'일 — 인원을 선택하세요.';
+var h='';for(var i=1;i<=10;i++)h+='<button class="num" id="n'+i+'" onclick="price('+i+')">'+i+'</button>';
+$('nums').innerHTML=h;$('priceBox').innerHTML='';go('people')}
+function price(n){
+ppl=n;var bs=document.querySelectorAll('.num');for(var i=0;i<bs.length;i++)bs[i].classList.remove('on');$('n'+n).classList.add('on');
+var d=nights+1,per=PRICE*d;
+$('priceBox').innerHTML='<table><tr><th>코스</th><th>기간</th><th>인원</th><th>1인 1일</th><th>1인 합계</th></tr>'+
+'<tr><td>'+names[cur]+'</td><td>'+nights+'박 '+d+'일</td><td>'+n+'명</td><td>$'+PRICE+'</td><td>$'+per.toLocaleString()+'</td></tr>'+
+'<tr class="total"><td colspan="4">총 여행비 ($'+PRICE+' × '+d+'일 × '+n+'명)</td><td>$'+total().toLocaleString()+'</td></tr></table>'+
+'<div class="row"><span></span><button class="book" onclick="startBook()">예약 정보 입력하기 →</button></div>'}
+
+/* ===== 예약 절차 (4단계) ===== */
+function startBook(){B={};step=1;renderBook();go('book')}
+function fld(k,l,o){
+o=o||{};var v=esc(B[k]),req=o.opt?'':'req',h;
+if(o.t==='select')h='<select data-k="'+k+'" class="'+req+'"><option value="">선택</option>'+o.o.map(function(x){return '<option'+(B[k]===x?' selected':'')+'>'+x+'</option>'}).join('')+'</select>';
+else if(o.t==='area')h='<textarea data-k="'+k+'" rows="3">'+v+'</textarea>';
+else h='<input data-k="'+k+'" type="'+(o.t||'text')+'" value="'+v+'"'+(k==='depart'?' min="'+today+'"':'')+' class="'+req+'">';
+return '<div class="fld '+(o.t==='area'?'full':'')+'"><label>'+l+(o.opt?' (선택)':' *')+'</label>'+h+'</div>'}
+var G=['남','여'];
+function renderBook(){
+var S=['예약자','여행자','여행 정보','확인'];
+var h='<div class="steps">'+S.map(function(s,i){return '<span class="'+(i+1===step?'cur':'')+'">'+(i+1)+'. '+s+'</span>'}).join('')+'</div>';
+if(step===1)h+='<div class="fg">'+fld('name','이름 (한글)')+fld('eng','영문 이름 (여권 기준)')+fld('birth','생년월일',{t:'date'})+fld('gender','성별',{t:'select',o:G})+fld('phone','연락처',{t:'tel'})+fld('email','이메일',{t:'email'})+'</div>';
+if(step===2){
+if(B.t1_eng==null)B.t1_eng=B.eng;if(B.t1_birth==null)B.t1_birth=B.birth;if(B.t1_gender==null)B.t1_gender=B.gender;
+for(var i=1;i<=ppl;i++)h+='<h3>여행자 '+i+(i===1?' (예약자 본인)':'')+'</h3><div class="fg">'+fld('t'+i+'_eng','영문 성명 (여권 기준)')+fld('t'+i+'_birth','생년월일',{t:'date'})+fld('t'+i+'_gender','성별',{t:'select',o:G})+fld('t'+i+'_exp','여권 만료일',{t:'date'})+'</div>'}
+if(step===3)h+='<div class="fg">'+fld('depart','출발 희망일',{t:'date'})+fld('room','숙박 선호',{t:'select',o:['게르 위주','호텔 위주','혼합']})+fld('emName','비상 연락처 이름')+fld('emPhone','비상 연락처 번호',{t:'tel'})+fld('meal','식사 요청 · 알레르기',{opt:1})+fld('memo','기타 요청사항',{t:'area',opt:1})+'</div>';
+if(step===4){collect();
+h+='<table><tr><th colspan="2">예약 요약</th></tr>'+
+'<tr><td>코스 / 기간</td><td>'+names[cur]+' · '+nights+'박 '+(nights+1)+'일</td></tr>'+
+'<tr><td>인원</td><td>'+ppl+'명</td></tr>'+
+'<tr><td>예약자</td><td>'+esc(B.name)+' ('+esc(B.phone)+', '+esc(B.email)+')</td></tr>'+
+'<tr><td>출발 희망일</td><td>'+esc(B.depart)+'</td></tr>'+
+'<tr><td>숙박 선호</td><td>'+esc(B.room)+'</td></tr>'+
+'<tr class="total"><td>총 여행비</td><td>$'+total().toLocaleString()+'</td></tr></table>'+
+'<label class="agree"><input type="checkbox" id="agree"> 위 내용이 맞으며 개인정보 수집·이용에 동의합니다. (학교 과제용 가상 예약이며 실제 결제는 없습니다.)</label>'}
+h+='<div class="row"><button class="back" onclick="prev()">← 이전</button>'+(step<4?'<button class="book" onclick="next()">다음 →</button>':'<button class="book" onclick="submitBook()">예약 완료</button>')+'</div>';
+$('bookForm').innerHTML=h;window.scrollTo(0,0)}
+function collect(){var es=document.querySelectorAll('#bookForm [data-k]');for(var i=0;i<es.length;i++)B[es[i].getAttribute('data-k')]=es[i].value.trim()}
+function next(){
+collect();var ok=true,es=document.querySelectorAll('#bookForm .req');
+for(var i=0;i<es.length;i++){var bad=!es[i].value.trim();es[i].classList.toggle('err',bad);if(bad)ok=false}
+if(!ok){alert('필수 항목(*)을 모두 입력해 주세요.');return}
+if(step===1&&!/^\S+@\S+\.\S+$/.test(B.email)){alert('이메일 형식을 확인해 주세요.');return}
+step++;renderBook()}
+function prev(){collect();if(step===1){go('people');return}step--;renderBook()}
+function submitBook(){
+if(!$('agree').checked){alert('동의에 체크해 주세요.');return}
+var b={no:'MD'+String(Date.now()).slice(-8),at:new Date().toLocaleString('ko-KR'),course:names[cur],nights:nights,days:nights+1,ppl:ppl,total:total(),info:B};
+bookings.push(b);
+if(!sset('md_bookings',JSON.stringify(bookings)))alert('이 환경에서는 예약이 저장되지 않아요. 파일을 브라우저에서 직접 열어 주세요.');
+if(FORMSPREE){var o={예약번호:b.no,코스:b.course,기간:nights+'박 '+(nights+1)+'일',인원:ppl,총액:'$'+b.total};for(var k in B)o[k]=B[k];
+fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(o)}).catch(function(){})}
+$('doneInfo').innerHTML='<p style="font-size:18px">예약번호 <b>'+b.no+'</b></p><p>'+esc(B.name)+'님, '+b.course+' '+nights+'박 '+(nights+1)+'일 · '+ppl+'명<br>총 여행비 $'+b.total.toLocaleString()+'</p><p>담당자가 확인 후 연락드립니다.</p>';
+go('done')}
+
+/* ===== 리뷰 ===== */
+function reviewCard(r){return '<div class="review" onclick="openReview('+r.id+')"><div class="stars">★★★★★</div><h3>'+r.title+'</h3><p>'+r.short+'</p><small>'+r.name+'</small><p class="more">자세히 보기 →</p></div>'}
+function openReviews(){$('allList').innerHTML=reviews.map(reviewCard).join('');go('reviews')}
+function openReview(id){var r=reviews.filter(function(x){return x.id===id})[0];
+$('mTitle').textContent=r.title;$('mText').textContent=r.text;$('mAuthor').textContent=r.name+' · MONGOLIA DREAM 여행자';
+$('modal').style.display='flex'}
+
+/* ===== 관리자 ===== */
+function login(){
+if($('pw').value===ADMIN_PW){isAdmin=true;document.body.classList.add('admin');$('loginModal').style.display='none';$('pw').value=''}
+else alert('비밀번호가 틀렸어요.')}
+function logout(){isAdmin=false;document.body.classList.remove('admin');go('home')}
+var LBL={name:'이름',eng:'영문 이름',birth:'생년월일',gender:'성별',phone:'연락처',email:'이메일',depart:'출발 희망일',room:'숙박 선호',emName:'비상 연락처 이름',emPhone:'비상 연락처 번호',meal:'식사·알레르기',memo:'요청사항'};
+var TL={eng:'영문 성명',birth:'생년월일',gender:'성별',exp:'여권 만료일'};
+function lab(k){var m=k.match(/^t(\d+)_(\w+)$/);return m?'여행자'+m[1]+' '+TL[m[2]]:(LBL[k]||k)}
+function openAdmin(){if(!isAdmin)return;renderAdmin();go('admin')}
+function renderAdmin(){
+$('adminList').innerHTML=bookings.length?bookings.slice().reverse().map(function(b){
+return '<details class="bk"><summary><b>'+b.no+'</b> · '+esc(b.info.name)+' · '+b.course+' '+b.nights+'박'+b.days+'일 · '+b.ppl+'명 · $'+b.total.toLocaleString()+'</summary><table><tr><td>접수 시간</td><td>'+esc(b.at)+'</td></tr>'+
+Object.keys(b.info).map(function(k){return '<tr><td>'+lab(k)+'</td><td>'+esc(b.info[k])+'</td></tr>'}).join('')+
+'</table><button class="back" onclick="delB(\''+b.no+'\')">이 예약 삭제</button></details>'}).join(''):'<p>아직 예약이 없어요.</p>'}
+function delB(no){if(!confirm('삭제할까요?'))return;bookings=bookings.filter(function(b){return b.no!==no});sset('md_bookings',JSON.stringify(bookings));renderAdmin()}
+
+/* ===== 시작 (각 줄이 따로 실행되어 하나가 실패해도 나머지는 동작) ===== */
+try{renderPackages()}catch(e){console.log(e)}
+try{$('hero').insertAdjacentHTML('afterbegin',photo('hero','landscape,steppe',1,'bgph'))}catch(e){console.log(e)}
+try{$('rBanner').innerHTML=photo('rbanner','landscape,sky',2,'bgph')+'<div class="bt"><h1>TRAVEL REVIEWS</h1><p>여행자들의 소중한 이야기</p></div>'}catch(e){console.log(e)}
+</script>
+</body>
+</html>
