@@ -3,17 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DREAM OF MONGOLIA</title>
+<title>MONGOLIA DREAM</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,'Malgun Gothic',sans-serif;background:#faf9f5;color:#333}
-header{background:white;padding:22px 7%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+header{background:white;padding:22px 7%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5;flex-wrap:wrap}
 .logo{font-size:23px;font-weight:bold;color:#405943;cursor:pointer}
 nav button{border:0;background:none;margin:5px;cursor:pointer;font-weight:bold}
-.hero{height:600px;background-size:cover;background-position:center;display:flex;align-items:center;padding:10%;color:white;background-color:#405943}
-.hero h1{font-size:50px}
-.hero .btns{display:flex;gap:12px;flex-wrap:wrap}
 button{cursor:pointer;font-family:inherit}
+.page{display:none}.page.on{display:block}
+.hidden{display:none!important}
+.adminOnly{display:none}
+body.admin .adminOnly{display:inline-block}
+body.admin #loginBtn{display:none}
+.ph{position:relative;height:200px;background:#cfd6c8;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph-t{color:#6b7a66;font-size:14px}
+.bgph{position:absolute;inset:0;height:auto}
+.up{position:absolute;right:8px;bottom:8px;background:white;border:1px solid #405943;padding:6px 10px;font-size:12px;cursor:pointer;display:none;z-index:3;color:#405943;font-weight:bold}
+.bgph .up{top:12px;bottom:auto}
+body.admin .up{display:block}
+.hero,.banner{position:relative;display:flex;align-items:center;color:white;background:#405943;overflow:hidden}
+.hero::after,.banner::after{content:'';position:absolute;inset:0;background:#0005}
+.hero{height:600px;padding:10%}
+.hero h1{font-size:50px}
+.in,.bt{position:relative;z-index:2}
+.banner{height:350px;justify-content:center;text-align:center}
+.banner h1{font-size:45px;text-shadow:0 2px 8px #333}
+.hero .btns{display:flex;gap:12px;flex-wrap:wrap}
 .mainbtn{background:#b58b52;color:white;border:0;padding:15px 28px;font-size:16px}
 .subbtn{background:transparent;color:white;border:2px solid white;padding:13px 26px;font-size:16px}
 section{padding:65px 8%}
@@ -22,142 +39,158 @@ section{padding:65px 8%}
 .about{text-align:center;line-height:2;color:#777;max-width:750px;margin:auto}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{background:white;cursor:pointer;box-shadow:0 5px 20px #0001}
-.card img{width:100%;height:230px;object-fit:cover;background:#ddd}
-.card div{padding:22px}
+.card .ph{height:230px}
+.card .tx{padding:22px}
 .card h3{color:#405943}
 .card p{color:#777;line-height:1.7}
 .more{color:#ae8650;font-weight:bold}
-.reviews{background:#eeece4}
-.review{background:white;padding:24px;margin:12px 0;cursor:pointer}
+.review{background:white;padding:24px;margin:12px 0;cursor:pointer;box-shadow:0 2px 10px #0001}
 .stars{color:#d3a354}
-.page{display:none}
-.banner{height:350px;background-position:center;background-size:cover;background-color:#405943;display:flex;align-items:center;justify-content:center;text-align:center;color:white}
-.banner h1{font-size:45px;text-shadow:0 2px 8px #333}
 .content{max-width:950px;margin:auto;padding:45px 20px}
 .content p{line-height:2;color:#777}
 .info{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:30px 0}
 .info div{background:#eeece4;text-align:center;padding:25px}
 .back{background:#405943;color:white;padding:12px 22px;border:0;margin:15px 0}
-.durs{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0 25px}
+.durs,.nums{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0 25px}
 .dur,.num{background:white;border:2px solid #405943;color:#405943;padding:12px 20px;font-weight:bold;font-size:15px}
+.num{width:52px;padding:12px 0}
 .dur.on,.num.on{background:#405943;color:white}
 .day{display:grid;grid-template-columns:300px 1fr;gap:20px;background:white;margin:16px 0;box-shadow:0 3px 14px #0001;border-left:4px solid #b58b52}
-.day img{width:100%;height:200px;object-fit:cover;background:#ddd}
-.day div{padding:18px}
+.day .tx{padding:18px}
 .day h3{margin:0 0 8px;color:#405943}
 .day p{margin:0}
 .inquiry{background:#eeece4;padding:30px;line-height:2;margin:15px 0}
-.book{background:#b58b52;color:white;border:0;padding:16px 34px;font-size:17px;margin:20px 0}
-.nums{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 25px}
-.num{width:52px;padding:12px 0}
+.book{background:#b58b52;color:white;border:0;padding:14px 32px;font-size:16px;margin:15px 0}
 table{width:100%;border-collapse:collapse;background:white;margin:10px 0}
-th,td{padding:14px;border:1px solid #ddd;text-align:center}
+th,td{padding:12px;border:1px solid #ddd;text-align:center}
 th{background:#405943;color:white}
 tr.total td{background:#f3e9d8;font-weight:bold;font-size:18px;color:#8a5f25}
-.hidden{display:none!important}
+.steps{display:flex;gap:6px;margin:15px 0 25px}
+.steps span{flex:1;text-align:center;padding:10px 4px;background:#eeece4;font-size:13px;color:#777}
+.steps .cur{background:#405943;color:white;font-weight:bold}
+.fg{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
+.fld label{display:block;font-size:13px;color:#555;margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:12px;border:1px solid #ccc;font:inherit}
+.full{grid-column:1/-1}
+.err{border-color:#c0392b!important;background:#fff3f1}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.notice{background:#fff7e6;border-left:4px solid #b58b52;padding:12px 16px;font-size:14px;color:#7a5a2a;margin:10px 0}
+.agree{display:block;margin:18px 0;line-height:1.7;color:#555}
+.bk{background:white;margin:12px 0;padding:14px 18px;box-shadow:0 2px 10px #0001}
+.bk summary{cursor:pointer}
+.bk td:first-child{background:#eeece4;width:35%;text-align:left}
+.bk td{text-align:left}
 footer{background:#263c30;color:white;text-align:center;padding:45px}
 .modal{display:none;position:fixed;inset:0;background:#0009;align-items:center;justify-content:center;padding:20px;z-index:10}
-.modalbox{background:white;padding:35px;max-width:500px;width:100%;position:relative}
+.modalbox{background:white;padding:35px;max-width:500px;width:100%}
 .close{float:right;border:0;background:none;font-size:25px}
-@media(max-width:700px){.cards,.info{grid-template-columns:1fr}.day{grid-template-columns:1fr}.hero h1{font-size:35px}nav button{font-size:11px}}
+.modalbox input{width:100%;padding:12px;border:1px solid #ccc;margin:12px 0}
+@media(max-width:700px){.cards,.info,.fg{grid-template-columns:1fr}.day{grid-template-columns:1fr}.hero h1{font-size:35px}nav button{font-size:11px}}
 </style>
 </head>
 <body>
 <header>
-<div class="logo" onclick="home()">MONGOLIA DREAM.</div>
+<div class="logo" onclick="go('home')">MONGOLIA DREAM.</div>
 <nav>
-<button onclick="home()">HOME</button>
-<button onclick="showTravel()">TRAVEL</button>
-<button onclick="allReviews()">REVIEW</button>
+<button onclick="go('home')">HOME</button>
+<button onclick="go('packages')">TRAVEL</button>
+<button onclick="openReviews()">REVIEW</button>
+<button class="adminOnly" onclick="openAdmin()">예약내역</button>
+<button class="adminOnly" onclick="logout()">로그아웃</button>
+<button id="loginBtn" onclick="$('loginModal').style.display='flex'">관리자</button>
 </nav>
 </header>
 
-<div id="home">
-<div class="hero" id="heroBg">
-<div>
+<!-- 홈 -->
+<div class="page on" id="p-home">
+<div class="hero" id="hero"><div class="in">
 <p>DISCOVER THE LAND OF BLUE SKY</p>
 <h1>당신의 꿈이 되는<br>몽골 여행</h1>
 <p>끝없이 펼쳐진 초원, 황금빛 사막, 아름다운 호수</p>
 <div class="btns">
-<button class="mainbtn" onclick="showTravel()">여행 패키지 보기 →</button>
-<button class="subbtn" onclick="allReviews()">여행 후기 보기</button>
-</div>
-</div>
+<button class="mainbtn" onclick="go('packages')">여행 패키지 보기 →</button>
+<button class="subbtn" onclick="go('about')">여행사 소개</button>
+<button class="subbtn" onclick="openReviews()">여행 후기 보기</button>
+</div></div></div>
 </div>
 
-<section>
+<!-- 소개 -->
+<div class="page" id="p-about"><section>
 <div class="heading"><h2>ABOUT MONGOLIA DREAM</h2></div>
 <div class="about">
 MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상의 여행사입니다.<br>
 여행자들에게 특별한 추억과 잊지 못할 경험을 선물합니다.<br>
 자연 속에서 자유와 여유를 느끼는 특별한 여행을 시작하세요.
 </div>
-</section>
+<div style="text-align:center"><button class="back" onclick="go('home')">← 홈으로</button></div>
+</section></div>
 
-<section style="background:#f0eee7" id="travel">
+<!-- 패키지 목록 -->
+<div class="page" id="p-packages"><section style="background:#f0eee7">
 <div class="heading"><h2>OUR TRAVEL PACKAGES</h2><p>당신이 꿈꾸는 몽골을 선택하세요.</p></div>
 <div class="cards" id="cardList"></div>
-</section>
+<div style="text-align:center;margin-top:25px"><button class="back" onclick="go('home')">← 홈으로</button></div>
+</section></div>
 
-<section class="reviews">
-<div class="heading"><h2>TRAVELER REVIEWS</h2><p>여행자들의 생생한 이야기</p></div>
-<div id="homeReviews"></div>
-<div style="text-align:center"><button class="back" onclick="allReviews()">전체 리뷰 보기 →</button></div>
-</section>
-</div>
-
-<div id="detail" class="page">
-<div class="banner" id="banner"><div><h1 id="title"></h1><p id="subtitle"></p></div></div>
+<!-- 패키지 상세 -->
+<div class="page" id="p-detail">
+<div class="banner" id="dBanner"></div>
 <div class="content">
-<button class="back" onclick="showTravel()">← 패키지 목록</button>
-<h2 id="heading"></h2>
-<p id="description"></p>
+<button class="back" onclick="go('packages')">← 패키지 목록</button>
+<h2 id="dHead"></h2><p id="dDesc"></p>
 <div class="info">
-<div><h3>여행 스타일</h3><p id="style"></p></div>
-<div><h3>주요 체험</h3><p id="activity"></p></div>
+<div><h3>여행 스타일</h3><p id="dStyle"></p></div>
+<div><h3>주요 체험</h3><p id="dAct"></p></div>
 <div><h3>1인 1일 여행비</h3><p>$100</p></div>
 </div>
-
 <h2>여행 기간 선택</h2>
 <div class="durs" id="durs"></div>
 <div id="plan" class="hidden"></div>
-
-<div id="bookArea" class="hidden">
-<button class="book" onclick="openBook()">예약하기</button>
-<div id="bookBox" class="hidden">
-<h2>인원 수</h2>
-<div class="nums" id="nums"></div>
-<div id="priceBox" class="hidden"></div>
-</div>
-</div>
-
+<div id="bookBtnWrap" class="hidden"><button class="book" onclick="goPeople()">예약하기 →</button></div>
 <div style="margin-top:40px">
 <button class="back" id="revBtn" onclick="toggleRev()">이 패키지 리뷰 보기</button>
-<div id="packageReviews" class="hidden"></div>
+<div id="pkgRev" class="hidden"></div>
 </div>
-</div>
-</div>
+</div></div>
 
-<div id="reviewPage" class="page">
-<div class="banner" id="reviewBanner">
-<div><h1>TRAVEL REVIEWS</h1><p>여행자들의 소중한 이야기</p></div>
-</div>
+<!-- 인원 선택 + 가격표 -->
+<div class="page" id="p-people"><div class="content">
+<button class="back" onclick="go('detail')">← 일정으로</button>
+<h2>인원 수 선택</h2>
+<p id="pplTitle"></p>
+<div class="nums" id="nums"></div>
+<div id="priceBox"></div>
+</div></div>
+
+<!-- 예약 입력 -->
+<div class="page" id="p-book"><div class="content">
+<h2>예약 정보 입력</h2>
+<div class="notice">학교 프로젝트용 가상 예약입니다. 여권번호 등 민감한 개인정보는 입력하지 마세요.</div>
+<div id="bookForm"></div>
+</div></div>
+
+<!-- 예약 완료 -->
+<div class="page" id="p-done"><div class="content" style="text-align:center">
+<h2 style="color:#405943">예약이 접수되었습니다 ✔</h2>
+<div id="doneInfo"></div>
+<button class="back" onclick="go('home')">홈으로</button>
+</div></div>
+
+<!-- 리뷰 -->
+<div class="page" id="p-reviews">
+<div class="banner" id="rBanner"></div>
 <div class="content">
-<button class="back" onclick="home()">← 홈으로</button>
+<button class="back" onclick="go('home')">← 홈으로</button>
 <div class="heading"><h2>전체 여행 리뷰</h2></div>
 <div id="allList"></div>
-</div>
-</div>
+</div></div>
 
-<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
-<div class="modalbox">
-<button class="close" onclick="closeModal()">×</button>
-<div class="stars">★★★★★</div>
-<h2 id="modalTitle"></h2>
-<p id="modalText"></p>
-<p id="modalAuthor"></p>
-</div>
-</div>
+<!-- 관리자: 예약 내역 -->
+<div class="page" id="p-admin"><div class="content">
+<h2>예약 내역 (관리자 전용)</h2>
+<div class="notice">이 브라우저에 저장된 예약만 표시됩니다.</div>
+<div id="adminList"></div>
+</div></div>
 
 <footer>
 <h2>MONGOLIA DREAM.</h2>
@@ -166,42 +199,60 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 <p>© 2026 MONGOLIA DREAM. School Project.</p>
 </footer>
 
-<script>
-/* ===== 사진 설정 =====
-   img(키워드, 번호): 키워드에 맞는 실제 몽골 사진을 불러옵니다.
-   원하는 사진이 있으면 아래 img() 대신 사진 주소(또는 파일명)를 직접 넣으세요. */
-const PRICE=100; // 1인 1일 여행비(달러)
-function img(kw,n,w){w=w||800;return `https://loremflickr.com/${w}/${Math.round(w*0.6)}/mongolia,${kw}?lock=${n}`}
+<!-- 리뷰 모달 -->
+<div class="modal" id="modal" onclick="if(event.target===this)this.style.display='none'">
+<div class="modalbox">
+<button class="close" onclick="$('modal').style.display='none'">×</button>
+<div class="stars">★★★★★</div>
+<h2 id="mTitle"></h2><p id="mText"></p><p id="mAuthor"></p>
+</div></div>
 
+<!-- 관리자 로그인 모달 -->
+<div class="modal" id="loginModal" onclick="if(event.target===this)this.style.display='none'">
+<div class="modalbox">
+<button class="close" onclick="$('loginModal').style.display='none'">×</button>
+<h2>관리자 로그인</h2>
+<input type="password" id="pw" placeholder="비밀번호">
+<button class="book" onclick="login()">로그인</button>
+</div></div>
+
+<script>
+/* ===== 설정 (여기만 수정하세요) ===== */
+const ADMIN_PW='mongolia2026';   // ★ 꼭 바꾸세요
+const FORMSPREE='';              // 예약을 내 메일로 받으려면 Formspree 주소 입력 (예: 'https://formspree.io/f/abcdwxyz')
+const FIXED={};                  // 모든 방문자에게 보일 사진: {hero:'images/hero.jpg', card_gobi:'images/gobi.jpg'}
+const PRICE=100;                 // 1인 1일 여행비($)
+
+/* ===== 기본 도구 ===== */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+let store=ld('md_photos',{}),bookings=ld('md_bookings',[]);
+const today=new Date().toISOString().slice(0,10);
+let cur=null,nights=0,ppl=0,step=1,B={};
+
+/* ===== 데이터 ===== */
 const data={
-gobi:{
-title:"고비사막 여행",subtitle:"황금빛 모래언덕에서 만나는 특별한 순간",cover:img('gobi,desert',11,1500),
+gobi:{title:"고비사막 여행",subtitle:"황금빛 모래언덕에서 만나는 특별한 순간",kw:"gobi,desert",seed:11,
 heading:"THE MAGIC OF GOBI DESERT",
-description:"끝없이 펼쳐진 황금빛 사막. 낙타를 타고 모래언덕을 거닐며 대자연의 웅장함을 경험하세요. 밤에는 쏟아지는 별빛을 감상할 수 있습니다.",
-style:"사막 어드벤처",activity:"낙타 체험 · 별 관찰",
+desc:"끝없이 펼쳐진 황금빛 사막. 낙타를 타고 모래언덕을 거닐며 대자연의 웅장함을 경험하세요. 밤에는 쏟아지는 별빛을 감상할 수 있습니다.",
+style:"사막 어드벤처",act:"낙타 체험 · 별 관찰",
 start:["울란바토르 출발","ulaanbaatar,city"],end:["울란바토르 귀환","ulaanbaatar"],
-mid:[["바얀작 불타는 절벽","bayanzag,cliff"],["홍고린엘스 모래언덕","khongor,dunes"],["욜린암 계곡","yolyn,valley"],["차강소브라가 흰 절벽","gobi,canyon"],["낙타 트레킹과 별 관찰","camel,desert"]]
-},
-central:{
-title:"중부 몽골 여행",subtitle:"끝없는 초원 위에서 만나는 자유",cover:img('steppe,grassland',21,1500),
+mid:[["바얀작 불타는 절벽","bayanzag,cliff"],["홍고린엘스 모래언덕","khongor,dunes"],["욜린암 계곡","yolyn,valley"],["차강소브라가 흰 절벽","gobi,canyon"],["낙타 트레킹과 별 관찰","camel,desert"]]},
+central:{title:"중부 몽골 여행",subtitle:"끝없는 초원 위에서 만나는 자유",kw:"steppe,grassland",seed:21,
 heading:"THE BEAUTY OF CENTRAL MONGOLIA",
-description:"푸른 초원과 유목민의 전통이 살아 숨 쉬는 중부 몽골. 전통 게르에서 숙박하고 말을 타며 몽골의 진정한 매력을 느껴보세요.",
-style:"자연 · 문화 체험",activity:"승마 · 게르 숙박",
+desc:"푸른 초원과 유목민의 전통이 살아 숨 쉬는 중부 몽골. 전통 게르에서 숙박하고 말을 타며 몽골의 진정한 매력을 느껴보세요.",
+style:"자연 · 문화 체험",act:"승마 · 게르 숙박",
 start:["울란바토르 출발","ulaanbaatar,city"],end:["울란바토르 귀환","ulaanbaatar"],
-mid:[["카라코룸 관광","karakorum,monastery"],["오르혼 계곡 및 유목민 체험","orkhon,valley"],["전통 게르 숙박","ger,steppe"],["초원 승마 체험","horse,steppe"],["테를지 국립공원","terelj,mountain"]]
-},
-lake:{
-title:"후브스굴 여행",subtitle:"몽골의 푸른 진주를 만나는 시간",cover:img('lake,khuvsgul',31,1500),
+mid:[["카라코룸 관광","karakorum,monastery"],["오르혼 계곡 및 유목민 체험","orkhon,valley"],["전통 게르 숙박","ger,steppe"],["초원 승마 체험","horse,steppe"],["테를지 국립공원","terelj,mountain"]]},
+lake:{title:"후브스굴 여행",subtitle:"몽골의 푸른 진주를 만나는 시간",kw:"lake,khuvsgul",seed:31,
 heading:"THE BLUE PEARL OF MONGOLIA",
-description:"맑고 투명한 물빛이 아름다운 후브스굴 호수. 산과 숲으로 둘러싸인 자연 속에서 여유로운 시간을 보내세요.",
-style:"힐링 · 자연 탐방",activity:"호수 보트 · 트레킹",
-start:["울란바토르 출발","ulaanbaatar,city"],end:["귀환","ulaanbaatar"],
-mid:[["무릉 도착 및 호수 이동","murun,steppe"],["후브스굴 호수 탐방","khuvsgul,lake"],["호수 보트 체험","lake,boat"],["숲속 트레킹","khuvsgul,forest"],["자유시간과 호숫가 휴식","khuvsgul,shore"]]
-}
+desc:"맑고 투명한 물빛이 아름다운 후브스굴 호수. 산과 숲으로 둘러싸인 자연 속에서 여유로운 시간을 보내세요.",
+style:"힐링 · 자연 탐방",act:"호수 보트 · 트레킹",
+start:["울란바토르 출발","ulaanbaatar,city"],end:["울란바토르 귀환","ulaanbaatar"],
+mid:[["무릉 도착 및 호수 이동","murun,steppe"],["후브스굴 호수 탐방","khuvsgul,lake"],["호수 보트 체험","lake,boat"],["숲속 트레킹","khuvsgul,forest"],["자유시간과 호숫가 휴식","khuvsgul,shore"]]}
 };
 const names={gobi:"고비사막",central:"중부 몽골",lake:"후브스굴"};
-const durList=[3,4,5,6]; // 박 수
-
 const reviews=[
 {id:1,type:"gobi",name:"김민지",title:"평생 잊지 못할 사막의 밤!",short:"사막에서 본 별은 정말 아름다웠어요.",text:"고비사막 여행은 제 인생에서 가장 특별한 경험이었습니다. 끝없이 펼쳐진 모래언덕과 낙타 체험도 좋았지만 밤하늘에 가득했던 별들이 가장 기억에 남아요."},
 {id:2,type:"central",name:"이서연",title:"몽골의 자연을 온몸으로 느꼈어요.",short:"초원에서 보낸 시간이 행복했어요.",text:"초원에서 말을 타고 게르에서 잠을 잤던 경험이 정말 특별했습니다. 도시에서는 느낄 수 없었던 여유와 자유를 느꼈어요."},
@@ -211,90 +262,18 @@ const reviews=[
 {id:6,type:"lake",name:"윤서아",title:"자연 속에서 완벽한 휴식",short:"조용하고 평화로운 여행이었어요.",text:"후브스굴 호수의 풍경은 정말 그림 같았습니다. 힐링이 필요한 사람에게 추천합니다."}
 ];
 
-let cur=null,nights=0;
-const $=id=>document.getElementById(id);
-const bg=u=>`linear-gradient(#0005,#0005),url('${u}')`;
+/* ===== 페이지 이동 ===== */
+function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));$('p-'+p).classList.add('on');window.scrollTo(0,0)}
 
-function hide(){['home','detail','reviewPage'].forEach(i=>$(i).style.display='none')}
-function home(){hide();$('home').style.display='block';window.scrollTo(0,0)}
-function showTravel(){home();$('travel').scrollIntoView({behavior:'smooth'})}
-
-function detail(id){
-hide();$('detail').style.display='block';cur=id;nights=0;
-const p=data[id];
-$('banner').style.backgroundImage=bg(p.cover);
-$('title').textContent=p.title;$('subtitle').textContent=p.subtitle;
-$('heading').textContent=p.heading;$('description').textContent=p.description;
-$('style').textContent=p.style;$('activity').textContent=p.activity;
-$('durs').innerHTML=durList.map(n=>`<button class="dur" id="d${n}" onclick="pick(${n})">${n}박 ${n+1}일</button>`).join('')+`<button class="dur" id="d0" onclick="pick(0)">기타 문의</button>`;
-/* 버튼을 누르기 전에는 전부 숨김 */
-$('plan').innerHTML='';$('plan').classList.add('hidden');
-$('bookArea').classList.add('hidden');$('bookBox').classList.add('hidden');$('priceBox').classList.add('hidden');
-$('packageReviews').innerHTML=reviews.filter(r=>r.type===id).map(reviewCard).join('');
-$('packageReviews').classList.add('hidden');
-$('revBtn').textContent='이 패키지 리뷰 보기';
-window.scrollTo(0,0);
-}
-
-function toggleRev(){
-const box=$('packageReviews');
-box.classList.toggle('hidden');
-$('revBtn').textContent=box.classList.contains('hidden')?'이 패키지 리뷰 보기':'리뷰 닫기';
-}
-
-function pick(n){
-document.querySelectorAll('.dur').forEach(b=>b.classList.remove('on'));
-$('d'+n).classList.add('on');
-$('bookBox').classList.add('hidden');$('priceBox').classList.add('hidden');
-$('plan').classList.remove('hidden');
-if(n===0){
-nights=0;$('bookArea').classList.add('hidden');
-$('plan').innerHTML=`<div class="inquiry"><h3>기타 문의</h3>7박 이상 장기 여행, 단체 여행, 맞춤 일정 등은 별도로 문의해 주세요.<br>📧 contact@mongoliadream.example<br>📞 02-1234-5678 (평일 10:00 ~ 18:00)</div>`;
-return;}
-nights=n;const p=data[cur],days=n+1;
-let list=[p.start,...p.mid.slice(0,days-2),p.end];
-$('plan').innerHTML=list.map((s,i)=>`<div class="day"><img src="${img(s[1],i*7+cur.length*3,800)}" alt="${s[0]}" loading="lazy" onerror="this.style.visibility='hidden'"><div><h3>${i+1}일차</h3><p>${s[0]}</p></div></div>`).join('');
-$('bookArea').classList.remove('hidden');
-}
-
-function openBook(){
-$('bookBox').classList.remove('hidden');
-$('priceBox').classList.add('hidden');
-$('nums').innerHTML=Array.from({length:10},(_,i)=>`<button class="num" id="n${i+1}" onclick="price(${i+1})">${i+1}</button>`).join('');
-$('bookBox').scrollIntoView({behavior:'smooth'});
-}
-
-function price(n){
-document.querySelectorAll('.num').forEach(b=>b.classList.remove('on'));
-$('n'+n).classList.add('on');
-const days=nights+1,per=PRICE*days,total=per*n;
-$('priceBox').classList.remove('hidden');
-$('priceBox').innerHTML=`<table>
-<tr><th>코스</th><th>기간</th><th>인원</th><th>1인 1일</th><th>1인 합계</th></tr>
-<tr><td>${names[cur]}</td><td>${nights}박 ${days}일</td><td>${n}명</td><td>$${PRICE}</td><td>$${per.toLocaleString()}</td></tr>
-<tr class="total"><td colspan="4">총 여행비 ($${PRICE} × ${days}일 × ${n}명)</td><td>$${total.toLocaleString()}</td></tr></table>`;
-}
-
-function reviewCard(r){
-return `<div class="review" onclick="openReview(${r.id})"><div class="stars">★★★★★</div><h3>${r.title}</h3><p>${r.short}</p><small>${r.name}</small><p class="more">자세히 보기 →</p></div>`;
-}
-function allReviews(){
-hide();$('reviewPage').style.display='block';
-$('allList').innerHTML=reviews.map(reviewCard).join('');
-window.scrollTo(0,0);
-}
-function openReview(id){
-const r=reviews.find(x=>x.id===id);
-$('modalTitle').textContent=r.title;$('modalText').textContent=r.text;
-$('modalAuthor').textContent=r.name+' · MONGOLIA DREAM 여행자';
-$('modal').style.display='flex';
-}
-function closeModal(){$('modal').style.display='none'}
-
-$('heroBg').style.backgroundImage=bg(img('landscape,steppe',1,1600));
-$('reviewBanner').style.backgroundImage=bg(img('landscape,sky',2,1500));
-$('cardList').innerHTML=Object.keys(data).map((id,i)=>`<div class="card" onclick="detail('${id}')"><img src="${img(['gobi,desert','steppe,horse','lake,khuvsgul'][i],40+i,900)}" alt=""><div><h3>0${i+1}. ${data[id].title}</h3><p>${data[id].subtitle}</p><span class="more">자세히 보기 →</span></div></div>`).join('');
-$('homeReviews').innerHTML=reviews.slice(0,3).map(reviewCard).join('');
-</script>
-</body>
-</html>
+/* ===== 사진 (우선순위: 관리자 업로드 > FIXED > 인터넷 사진 > 준비 중) ===== */
+function photo(key,kw,seed,cls=''){
+const src=store[key]||FIXED[key]||`https://loremflickr.com/${cls?1400:800}/${cls?700:500}/mongolia,${kw}?lock=${seed}`;
+return `<div class="ph ${cls}"><span class="ph-t">사진 준비 중</span><img src="${src}" alt="" onerror="this.remove()"><label class="up" onclick="event.stopPropagation()">📷 사진 변경<input type="file" accept="image/*" hidden onchange="upload('${key}',this)"></label></div>`}
+function upload(key,inp){
+const f=inp.files[0];if(!f||!sessionStorage.md_admin)return;
+const r=new FileReader();
+r.onload=e=>{const im=new Image();
+im.onload=()=>{const k=Math.min(1,1200/im.width),c=document.createElement('canvas');
+c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+const d=c.toDataURL('image/jpeg',.75);store[key]=d;
+try{localStorage.setItem('md_phot
