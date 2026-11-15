@@ -90,11 +90,13 @@ tr.total td{background:#f3e9d8;font-weight:bold;font-size:18px;color:#8a5f25}
 .notice{background:#fff7e6;border-left:4px solid #b58b52;padding:12px 16px;font-size:14px;color:#7a5a2a;margin:10px 0}
 .agree{display:block;margin:18px 0;line-height:1.7;color:#555}
 .cars{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.car{background:white;cursor:pointer;box-shadow:0 3px 14px #0001;border:3px solid transparent}
-.car.on{border-color:#b58b52}
+.car{background:white;cursor:pointer;box-shadow:0 3px 14px #0001;border:3px solid transparent;transition:.2s}
+.car.on{border-color:#b58b52;background:#fffdf8}
 .car .tx{padding:16px}
-.car h3{margin:0 0 6px;color:#405943}
+.car h3{margin:0 0 6px;color:#405943;display:flex;justify-content:space-between;align-items:center}
 .car p{margin:0;font-size:14px;line-height:1.7}
+.car-pick{display:inline-block;margin-top:12px;padding:6px 14px;font-size:13px;font-weight:bold;border:1px solid #405943;color:#405943;background:white}
+.car.on .car-pick{background:#b58b52;border-color:#b58b52;color:white}
 .job{background:white;padding:24px;margin:16px 0;box-shadow:0 3px 14px #0001;border-left:4px solid #405943}
 .job h3{margin:8px 0;color:#405943}
 .job p{margin:4px 0}
@@ -130,6 +132,7 @@ footer a{color:white;cursor:pointer;text-decoration:underline}
 <a onclick="detail('lake')">후브스굴 여행</a>
 <a onclick="go('packages')">전체 보기</a>
 </div>
+<a onclick="openCars()">차량 소개</a>
 <a onclick="openReviews()">여행 후기</a>
 <a onclick="go('write')">후기 쓰기</a>
 <a onclick="go('jobs')">채용</a>
@@ -146,6 +149,7 @@ footer a{color:white;cursor:pointer;text-decoration:underline}
 <p data-t="h_desc">끝없이 펼쳐진 초원, 황금빛 사막, 아름다운 호수</p>
 <div class="btns">
 <button class="mainbtn" onclick="go('packages')">여행 패키지 보기 →</button>
+<button class="subbtn" onclick="openCars()">차량 소개</button>
 <button class="subbtn" onclick="go('about')">회사 소개</button>
 <button class="subbtn" onclick="openReviews()">여행 후기 보기</button>
 </div></div></div>
@@ -174,6 +178,12 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 <div class="cards" id="cardList"></div>
 <div style="text-align:center;margin-top:25px"><button class="back" onclick="go('home')">← 홈으로</button></div>
 </section></div>
+
+<div class="page" id="p-cars"><div class="content">
+<button class="back" onclick="go('home')">← 홈으로</button>
+<div class="heading"><h2 data-t="cr_h">TOUR VEHICLES</h2><p data-t="cr_s">몽골 여행에서 이용하실 수 있는 차량을 소개합니다.</p></div>
+<div class="cars" id="carGuideList"></div>
+</div></div>
 
 <div class="page" id="p-detail">
 <div class="banner" id="dBanner"></div>
@@ -427,6 +437,12 @@ for(var id in data){var p=data[id];
 h+='<div class="card" onclick="if(isAdmin&&event.target.closest(\'[data-t]\'))return;detail(\''+id+'\')">'+photo('card_'+id,p.kw,40+i)+'<div class="tx"><h3>0'+(i+1)+'. '+ed('c_'+id+'_title',p.title)+'</h3><p>'+ed('c_'+id+'_sub',p.subtitle)+'</p><span class="more">자세히 보기 →</span></div></div>';i++}
 $('cardList').innerHTML=h}
 
+/* ===== 차량 소개 (메뉴에서 진입 시) ===== */
+function openCars(){
+$('carGuideList').innerHTML=carIds.map(function(id){var c=cars[id];
+return '<div class="car" style="cursor:default">'+photo('car_'+id,null,0)+'<div class="tx"><h3>'+ed('car_'+id+'_n',c.n)+'</h3><p>'+ed('car_'+id+'_d',c.d)+'</p></div></div>'}).join('');
+go('cars')}
+
 function detail(id){
 cur=id;nights=0;var p=data[id];
 $('dBanner').innerHTML=photo('banner_'+id,p.kw,p.seed+5,'bgph')+'<div class="bt"><h1>'+ed('c_'+id+'_title',p.title)+'</h1><p>'+ed('c_'+id+'_sub',p.subtitle)+'</p></div>';
@@ -473,11 +489,15 @@ if(o.t==='select')h='<select data-k="'+k+'" class="'+req+'"><option value="">선
 else if(o.t==='area')h='<textarea data-k="'+k+'" rows="3">'+v+'</textarea>';
 else h='<input data-k="'+k+'" type="'+(o.t||'text')+'" value="'+v+'"'+(k==='depart'?' min="'+today+'"':'')+' class="'+req+'">';
 return '<div class="fld '+(o.t==='area'?'full':'')+'"><label>'+l+(o.opt?' (선택)':' *')+'</label>'+h+'</div>'}
-var G=['남','여'];
+var G=['여자','기타'];
 function pickCar(id,e){
 if(isAdmin&&e&&e.target.closest&&e.target.closest('[data-t]'))return;
-B.car=id;var cs=document.querySelectorAll('.car');
-for(var i=0;i<cs.length;i++)cs[i].classList.toggle('on',cs[i].getAttribute('data-id')===id)}
+B.car=id;var cs=document.querySelectorAll('#bookForm .car');
+for(var i=0;i<cs.length;i++){
+var sel=cs[i].getAttribute('data-id')===id;
+cs[i].classList.toggle('on',sel);
+var btn=cs[i].querySelector('.car-pick');
+if(btn)btn.textContent=sel?'✓ 선택됨':'이 차량 선택'}}
 function renderBook(){
 var S=['예약자','일행 (선택)','차량','여행 정보','확인'];
 var h='<div class="steps">'+S.map(function(s,i){return '<span class="'+(i+1===step?'cur':'')+'">'+(i+1)+'. '+s+'</span>'}).join('')+'</div>';
@@ -487,8 +507,8 @@ h+='<div class="notice">일행 정보는 선택 사항이에요. 지금 입력�
 if(B.t1_eng==null)B.t1_eng=B.eng;if(B.t1_birth==null)B.t1_birth=B.birth;if(B.t1_gender==null)B.t1_gender=B.gender;
 for(var i=1;i<=ppl;i++)h+='<h3>여행자 '+i+(i===1?' (예약자 본인)':'')+'</h3><div class="fg">'+fld('t'+i+'_eng','영문 성명 (여권 기준)',{opt:1})+fld('t'+i+'_birth','생년월일',{t:'date',opt:1})+fld('t'+i+'_gender','성별',{t:'select',o:G,opt:1})+fld('t'+i+'_exp','여권 만료일',{t:'date',opt:1})+'</div>'}
 if(step===3){
-h+='<p>이용하실 차량을 선택해 주세요.</p><div class="cars">'+carIds.map(function(id){var c=cars[id];
-return '<div class="car'+(B.car===id?' on':'')+'" data-id="'+id+'" onclick="pickCar(\''+id+'\',event)">'+photo('car_'+id,null,0)+'<div class="tx"><h3>'+ed('car_'+id+'_n',c.n)+'</h3><p>'+ed('car_'+id+'_d',c.d)+'</p></div></div>'}).join('')+'</div>'}
+h+='<p>이용하실 차량을 선택해 주세요. (카드를 클릭해 선택)</p><div class="cars">'+carIds.map(function(id){var c=cars[id],sel=B.car===id;
+return '<div class="car'+(sel?' on':'')+'" data-id="'+id+'" onclick="pickCar(\''+id+'\',event)">'+photo('car_'+id,null,0)+'<div class="tx"><h3>'+ed('car_'+id+'_n',c.n)+'</h3><p>'+ed('car_'+id+'_d',c.d)+'</p><button type="button" class="car-pick">'+(sel?'✓ 선택됨':'이 차량 선택')+'</button></div></div>'}).join('')+'</div>'}
 if(step===4)h+='<div class="fg">'+fld('depart','출발 희망일',{t:'date'})+fld('room','숙박 선호',{t:'select',o:['게르 위주','호텔 위주','혼합']})+fld('emName','비상 연락처 이름')+fld('emPhone','비상 연락처 번호',{t:'tel'})+fld('meal','식사 요청 · 알레르기',{opt:1})+fld('memo','기타 요청사항',{t:'area',opt:1})+'</div>';
 if(step===5){collect();
 h+='<table><tr><th colspan="2">예약 요약</th></tr>'+
