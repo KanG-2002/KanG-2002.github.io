@@ -1,299 +1,102 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MONGOLIA DREAM</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,'Malgun Gothic',sans-serif;background:#faf9f5;color:#333}
-header{background:white;padding:18px 7%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
-.logo{font-size:23px;font-weight:bold;color:#405943;cursor:pointer}
-#menuBtn{background:#405943;color:white;border:0;padding:10px 18px;font-weight:bold;font-size:15px}
-button{cursor:pointer;font-family:inherit}
-.ov{display:none;position:fixed;inset:0;background:#0006;z-index:15}
-.ov.open{display:block}
-#drawer{position:fixed;top:0;right:0;width:290px;max-width:85%;height:100%;background:white;z-index:20;transform:translateX(100%);transition:.25s;padding:55px 24px 24px;overflow:auto}
-#drawer.open{transform:none}
-#drawer a{display:block;padding:14px 4px;border-bottom:1px solid #eee;cursor:pointer;font-weight:bold;color:#333}
-#drawer a:hover{color:#b58b52}
-#sub a{padding-left:22px;font-weight:normal;font-size:14px}
-#drawer .x{position:absolute;top:10px;right:14px;border:0;background:none;font-size:28px}
-.page{display:none}.page.on{display:block}
-.hidden{display:none!important}
-.adminOnly{display:none}
-body.admin .adminOnly{display:block}
-#drawer a.adminOnly{display:none}
-body.admin #drawer a.adminOnly{display:block}
-body.admin #drawer #loginBtn{display:none}
-body.admin [contenteditable=true]{outline:1px dashed #b58b52;cursor:text;min-width:20px;display:inline-block}
-.ph{position:relative;height:200px;background:#cfd6c8;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.ph-t{color:#6b7a66;font-size:14px}
-.bgph{position:absolute;inset:0;height:auto}
-.up{position:absolute;right:8px;bottom:8px;background:white;border:1px solid #405943;padding:6px 10px;font-size:12px;cursor:pointer;display:none;z-index:3;color:#405943;font-weight:bold}
-.bgph .up{top:12px;bottom:auto}
-body.admin .up{display:block}
-.hero,.banner{position:relative;display:flex;align-items:center;color:white;background:#405943;overflow:hidden}
-.hero::after,.banner::after{content:'';position:absolute;inset:0;background:#0005;pointer-events:none}
-.hero{height:600px;padding:10%}
-.hero h1{font-size:50px}
-.in,.bt{position:relative;z-index:2}
-.banner{height:350px;justify-content:center;text-align:center}
-.banner h1{font-size:45px;text-shadow:0 2px 8px #333}
-.hero .btns{display:flex;gap:12px;flex-wrap:wrap}
-.mainbtn{background:#b58b52;color:white;border:0;padding:15px 28px;font-size:16px}
-.subbtn{background:transparent;color:white;border:2px solid white;padding:13px 26px;font-size:16px}
-section{padding:65px 8%}
-.heading{text-align:center;margin-bottom:40px}
-.heading h2{font-size:32px;color:#405943}
-.about{text-align:center;line-height:2;color:#777;max-width:750px;margin:auto}
-.contact{max-width:600px;margin:35px auto;background:white;padding:25px 30px;box-shadow:0 3px 14px #0001;line-height:2}
-.contact h3{margin:0 0 8px;color:#405943}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{background:white;cursor:pointer;box-shadow:0 5px 20px #0001}
-.card .ph{height:230px}
-.card .tx{padding:22px}
-.card h3{color:#405943}
-.card p{color:#777;line-height:1.7}
-.more{color:#ae8650;font-weight:bold}
-.review{background:white;padding:24px;margin:12px 0;cursor:pointer;box-shadow:0 2px 10px #0001}
-.stars{color:#d3a354}
-.content{max-width:950px;margin:auto;padding:45px 20px}
-.content p{line-height:2;color:#777}
-.info{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:30px 0}
-.info div{background:#eeece4;text-align:center;padding:25px}
-.back{background:#405943;color:white;padding:12px 22px;border:0;margin:15px 0}
-.durs,.nums,.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0 25px}
-.dur,.num{background:white;border:2px solid #405943;color:#405943;padding:12px 20px;font-weight:bold;font-size:15px}
-.num{width:52px;padding:12px 0}
-.dur.on,.num.on{background:#405943;color:white}
-.day{display:grid;grid-template-columns:300px 1fr;gap:20px;background:white;margin:16px 0;box-shadow:0 3px 14px #0001;border-left:4px solid #b58b52}
-.day .tx{padding:18px}
-.day h3{margin:0 0 8px;color:#405943}
-.day p{margin:0}
-.inquiry{background:#eeece4;padding:30px;line-height:2;margin:15px 0}
-.book{background:#b58b52;color:white;border:0;padding:14px 32px;font-size:16px;margin:15px 0}
-table{width:100%;border-collapse:collapse;background:white;margin:10px 0}
-th,td{padding:12px;border:1px solid #ddd;text-align:center}
-th{background:#405943;color:white}
-tr.total td{background:#f3e9d8;font-weight:bold;font-size:18px;color:#8a5f25}
-.steps{display:flex;gap:6px;margin:15px 0 25px}
-.steps span{flex:1;text-align:center;padding:10px 4px;background:#eeece4;font-size:12px;color:#777}
-.steps .cur{background:#405943;color:white;font-weight:bold}
-.fg{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
-.fld label{display:block;font-size:13px;color:#555;margin-bottom:5px}
-.fld input,.fld select,.fld textarea{width:100%;padding:12px;border:1px solid #ccc;font:inherit}
-.full{grid-column:1/-1}
-.err{border-color:#c0392b!important;background:#fff3f1}
-.row{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
-.notice{background:#fff7e6;border-left:4px solid #b58b52;padding:12px 16px;font-size:14px;color:#7a5a2a;margin:10px 0}
-.agree{display:block;margin:18px 0;line-height:1.7;color:#555}
-.cars{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.car{background:white;cursor:pointer;box-shadow:0 3px 14px #0001;border:3px solid transparent}
-.car.on{border-color:#b58b52}
-.car .tx{padding:16px}
-.car h3{margin:0 0 6px;color:#405943}
-.car p{margin:0;font-size:14px;line-height:1.7}
-.job{background:white;padding:24px;margin:16px 0;box-shadow:0 3px 14px #0001;border-left:4px solid #405943}
-.job h3{margin:8px 0;color:#405943}
-.job p{margin:4px 0}
-.tag{background:#eeece4;color:#8a5f25;padding:4px 10px;font-size:13px;font-weight:bold}
-.bk{background:white;margin:12px 0;padding:14px 18px;box-shadow:0 2px 10px #0001}
-.bk summary{cursor:pointer}
-.bk td:first-child{background:#eeece4;width:35%;text-align:left}
-.bk td{text-align:left}
-footer{background:#263c30;color:white;text-align:center;padding:45px}
-footer a{color:white;cursor:pointer;text-decoration:underline}
-.modal{display:none;position:fixed;inset:0;background:#0009;align-items:center;justify-content:center;padding:20px;z-index:30}
-.modalbox{background:white;padding:35px;max-width:500px;width:100%;max-height:90%;overflow:auto}
-.close{float:right;border:0;background:none;font-size:25px}
-.modalbox input{width:100%;padding:12px;border:1px solid #ccc;margin:8px 0}
-@media(max-width:700px){.cards,.info,.fg,.cars{grid-template-columns:1fr}.day{grid-template-columns:1fr}.hero h1{font-size:35px}.steps span{font-size:10px}}
-</style>
-</head>
-<body>
-<header>
-<div class="logo" onclick="go('home')">MONGOLIA DREAM.</div>
-<button id="menuBtn" onclick="toggleMenu()">☰ 메뉴</button>
-</header>
+function openReview(id){
+  var r = visibleReviews().concat(userRev).find(function(x){ return String(x.id) === String(id); });
+  if(!r) return;
+  $('mStars').textContent = stars(r.rating);
+  $('mTitle').textContent = r.title;
+  $('mText').innerHTML = '<p style="line-height:1.8">' + esc(r.text).replace(/\n/g,'<br>') + '</p>';
+  $('mAuthor').textContent = '- ' + r.name + ' (' + (names[r.type] || '') + ')';
+  $('modal').style.display = 'flex';
+}
 
-<div class="ov" id="ov" onclick="closeMenu()"></div>
-<aside id="drawer">
-<button class="x" onclick="closeMenu()">×</button>
-<a onclick="go('home')">홈</a>
-<a onclick="go('about')">회사 소개 · 연락처</a>
-<a onclick="$('sub').classList.toggle('hidden')">여행 패키지 ▾</a>
-<div id="sub" class="hidden">
-<a onclick="detail('gobi')">고비사막 여행</a>
-<a onclick="detail('central')">중부 몽골 여행</a>
-<a onclick="detail('lake')">후브스굴 여행</a>
-<a onclick="go('packages')">전체 보기</a>
-</div>
-<a onclick="openReviews()">여행 후기</a>
-<a onclick="go('write')">후기 쓰기</a>
-<a onclick="go('jobs')">채용</a>
-<a class="adminOnly" onclick="openAdmin()">관리 페이지</a>
-<a class="adminOnly" onclick="exportTxt()">문구 내보내기</a>
-<a class="adminOnly" onclick="logout()">로그아웃</a>
-<a id="loginBtn" onclick="openLogin()">관리자 로그인</a>
-</aside>
+function submitReview(){
+  var name = $('wName').value.trim(), type = $('wCourse').value, rating = $('wRate').value;
+  var title = $('wTitle').value.trim(), text = $('wText').value.trim();
+  if(!name || !title || !text){ alert('필수 항목(*)을 모두 입력해 주세요.'); return; }
+  var rev = {
+    id: 'u' + Date.now(), type: type, name: name, rating: rating,
+    title: title, short: text.slice(0, 40) + (text.length > 40 ? '...' : ''),
+    text: text, status: 'wait', at: new Date().toLocaleString('ko-KR')
+  };
+  userRev.push(rev);
+  sset('md_ureviews', JSON.stringify(userRev));
+  send({구분:'후기', 이름:name, 코스:names[type], 별점:rating, 제목:title, 내용:text});
+  alert('후기가 접수되었습니다. 관리자 승인 후 게시됩니다.');
+  $('wName').value = ''; $('wTitle').value = ''; $('wText').value = '';
+  openReviews();
+}
 
-<div class="page on" id="p-home">
-<div class="hero" id="hero"><div class="in">
-<p data-t="h_sub">DISCOVER THE LAND OF BLUE SKY</p>
-<h1 data-t="h_title">당신의 꿈이 되는<br>몽골 여행</h1>
-<p data-t="h_desc">끝없이 펼쳐진 초원, 황금빛 사막, 아름다운 호수</p>
-<div class="btns">
-<button class="mainbtn" onclick="go('packages')">여행 패키지 보기 →</button>
-<button class="subbtn" onclick="go('about')">회사 소개</button>
-<button class="subbtn" onclick="openReviews()">여행 후기 보기</button>
-</div></div></div>
-</div>
+/* ===== 채용 ===== */
+function renderJobs(){
+  $('jobList').innerHTML = jobs.map(function(j){
+    return '<div class="job"><span class="tag">' + j.ty + '</span><h3>' + j.t + '</h3>' +
+           '<p>' + j.d + '</p><p><b>자격요건:</b> ' + j.req + '</p><p><b>우대사항:</b> ' + j.pref + '</p>' +
+           '<button class="book" onclick="openApply(\'' + j.t + '\')">지원하기 →</button></div>';
+  }).join('');
+}
+function openApply(jobTitle){ $('aJob').value = jobTitle; go('apply'); }
+function submitApply(){
+  var name = $('aName').value.trim(), phone = $('aPhone').value.trim(), email = $('aEmail').value.trim(), intro = $('aIntro').value.trim();
+  if(!name || !phone || !email || !intro){ alert('필수 항목(*)을 모두 입력해 주세요.'); return; }
+  if(!$('aAgree').checked){ alert('개인정보 수집·이용에 동의해 주세요.'); return; }
+  var app = { at: new Date().toLocaleString('ko-KR'), job: $('aJob').value, name: name, phone: phone, email: email, intro: intro };
+  apps.push(app);
+  sset('md_apps', JSON.stringify(apps));
+  send({구분:'채용지원', 분야:app.job, 이름:name, 연락처:phone, 이메일:email, 자기소개:intro});
+  alert('입사 지원서가 제출되었습니다.');
+  $('aName').value = ''; $('aPhone').value = ''; $('aEmail').value = ''; $('aIntro').value = ''; $('aAgree').checked = false;
+  go('jobs');
+}
 
-<div class="page" id="p-about"><section>
-<div class="heading"><h2 data-t="a_h">ABOUT MONGOLIA DREAM</h2></div>
-<div class="about" data-t="a_t">
-MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상의 여행사입니다.<br>
-여행자들에게 특별한 추억과 잊지 못할 경험을 선물합니다.<br>
-자연 속에서 자유와 여유를 느끼는 특별한 여행을 시작하세요.
-</div>
-<div class="contact">
-<h3>회사 정보 · 연락처</h3>
-<div>🏢 상호: <span data-t="ct_name">MONGOLIA DREAM</span></div>
-<div>📞 전화: <span data-t="ct_phone">02-1234-5678</span></div>
-<div>📧 이메일: <span data-t="ct_email">contact@mongoliadream.example</span></div>
-<div>📍 주소: <span data-t="ct_addr">서울특별시 (가상 주소)</span></div>
-<div>🕘 운영시간: <span data-t="ct_hours">평일 10:00 ~ 18:00</span></div>
-</div>
-<div style="text-align:center"><button class="back" onclick="go('home')">← 홈으로</button></div>
-</section></div>
+/* ===== 관리자 로그인 및 관리 페이지 ===== */
+function openLogin(){ closeMenu(); $('loginModal').style.display = 'flex'; }
+function login(){
+  if($('lid').value === ADMIN_ID && $('pw').value === ADMIN_PW){
+    isAdmin = true; document.body.classList.add('admin');
+    $('loginModal').style.display = 'none'; $('lid').value = ''; $('pw').value = '';
+    setEdit(); alert('관리자 모드로 로그인되었습니다.');
+  } else { alert('아이디 또는 비밀번호가 일치하지 않습니다.'); }
+}
+function logout(){ isAdmin = false; document.body.classList.remove('admin'); closeMenu(); setEdit(); go('home'); }
 
-<div class="page" id="p-packages"><section style="background:#f0eee7">
-<div class="heading"><h2 data-t="pk_h">OUR TRAVEL PACKAGES</h2><p data-t="pk_s">당신이 꿈꾸는 몽골을 선택하세요.</p></div>
-<div class="cards" id="cardList"></div>
-<div style="text-align:center;margin-top:25px"><button class="back" onclick="go('home')">← 홈으로</button></div>
-</section></div>
+function openAdmin(){ renderAdmin(); go('admin'); }
+function renderAdmin(){
+  var h = '<div class="tabs">' +
+    '<button class="dur ' + (adminTab==='book'?'on':'') + '" onclick="adminTab=\'book\';renderAdmin()">예약 내역 (' + bookings.length + ')</button>' +
+    '<button class="dur ' + (adminTab==='rev'?'on':'') + '" onclick="adminTab=\'rev\';renderAdmin()">후기 관리 (' + userRev.length + ')</button>' +
+    '<button class="dur ' + (adminTab==='app'?'on':'') + '" onclick="adminTab=\'app\';renderAdmin()">채용 지원 (' + apps.length + ')</button></div>';
 
-<div class="page" id="p-detail">
-<div class="banner" id="dBanner"></div>
-<div class="content">
-<button class="back" onclick="go('packages')">← 패키지 목록</button>
-<h2 id="dHead"></h2><p id="dDesc"></p>
-<div class="info">
-<div><h3>여행 스타일</h3><p id="dStyle"></p></div>
-<div><h3>주요 체험</h3><p id="dAct"></p></div>
-<div><h3>1인 1일 여행비</h3><p>$100</p></div>
-</div>
-<h2>여행 기간 선택</h2>
-<div class="durs" id="durs"></div>
-<div id="plan" class="hidden"></div>
-<div id="bookBtnWrap" class="hidden"><button class="book" onclick="goPeople()">예약하기 →</button></div>
-<div style="margin-top:40px">
-<button class="back" id="revBtn" onclick="toggleRev()">이 패키지 리뷰 보기</button>
-<div id="pkgRev" class="hidden"></div>
-</div>
-</div></div>
+  if(adminTab === 'book'){
+    h += bookings.length ? bookings.map(function(b){
+      return '<details class="bk"><summary><b>[' + b.no + '] ' + esc(b.info.name) + '</b> - ' + b.course + ' (' + b.nights + '박 ' + b.days + '일, ' + b.ppl + '명) / $' + b.total + '</summary>' +
+             '<p style="font-size:13px;color:#666">접수일시: ' + b.at + '</p>' +
+             '<table><tr><td>연락처</td><td>' + esc(b.info.phone) + '</td></tr><tr><td>이메일</td><td>' + esc(b.info.email) + '</td></tr><tr><td>차량</td><td>' + esc(b.info.car) + '</td></tr><tr><td>출발일</td><td>' + esc(b.info.depart) + '</td></tr></table></details>';
+    }).join('') : '<p>접수된 예약이 없습니다.</p>';
+  } else if(adminTab === 'rev'){
+    h += userRev.length ? userRev.map(function(r, idx){
+      return '<div class="bk"><b>[' + (r.status==='ok'?'게시됨':'승인대기') + '] ' + esc(r.title) + '</b> - ' + esc(r.name) + ' (' + stars(r.rating) + ')' +
+             '<p>' + esc(r.text) + '</p>' +
+             (r.status!=='ok' ? '<button class="book" style="padding:6px 14px;font-size:13px" onclick="approveRev(' + idx + ')">승인(게시)</button> ' : '') +
+             '<button class="back" style="padding:6px 14px;font-size:13px;background:#c0392b" onclick="delRev(' + idx + ')">삭제</button></div>';
+    }).join('') : '<p>등록된 사용자 후기가 없습니다.</p>';
+  } else if(adminTab === 'app'){
+    h += apps.length ? apps.map(function(a){
+      return '<details class="bk"><summary><b>[' + esc(a.job) + '] ' + esc(a.name) + '</b> (' + esc(a.phone) + ')</summary>' +
+             '<p>이메일: ' + esc(a.email) + ' / 접수: ' + a.at + '</p><p>' + esc(a.intro).replace(/\n/g,'<br>') + '</p></details>';
+    }).join('') : '<p>접수된 지원서가 없습니다.</p>';
+  }
+  $('adminBox').innerHTML = h;
+}
+function approveRev(idx){ userRev[idx].status = 'ok'; sset('md_ureviews', JSON.stringify(userRev)); renderAdmin(); }
+function delRev(idx){ userRev.splice(idx, 1); sset('md_ureviews', JSON.stringify(userRev)); renderAdmin(); }
 
-<div class="page" id="p-people"><div class="content">
-<button class="back" onclick="go('detail')">← 일정으로</button>
-<h2>인원 수 선택</h2>
-<p id="pplTitle"></p>
-<div class="nums" id="nums"></div>
-<div id="priceBox"></div>
-</div></div>
-
-<div class="page" id="p-book"><div class="content">
-<h2>예약 정보 입력</h2>
-<div class="notice">학교 프로젝트용 가상 예약입니다. 여권번호 등 민감한 개인정보는 입력하지 마세요.</div>
-<div id="bookForm"></div>
-</div></div>
-
-<div class="page" id="p-done"><div class="content" style="text-align:center">
-<h2 style="color:#405943">예약이 접수되었습니다 ✔</h2>
-<div id="doneInfo"></div>
-<button class="back" onclick="go('home')">홈으로</button>
-</div></div>
-
-<div class="page" id="p-reviews">
-<div class="banner" id="rBanner"></div>
-<div class="content">
-<button class="back" onclick="go('home')">← 홈으로</button>
-<button class="book" style="float:right" onclick="go('write')">후기 쓰기</button>
-<div class="heading" style="clear:both"><h2>전체 여행 리뷰</h2></div>
-<div id="allList"></div>
-</div></div>
-
-<div class="page" id="p-write"><div class="content">
-<button class="back" onclick="go('reviews')">← 후기 목록</button>
-<h2>여행 후기 쓰기</h2>
-<div class="notice">작성한 후기는 관리자가 확인한 뒤 게시됩니다.</div>
-<div class="fg">
-<div class="fld"><label>이름(닉네임) *</label><input id="wName"></div>
-<div class="fld"><label>다녀온 코스 *</label><select id="wCourse"><option value="gobi">고비사막</option><option value="central">중부 몽골</option><option value="lake">후브스굴</option></select></div>
-<div class="fld"><label>별점 *</label><select id="wRate"><option value="5">★★★★★</option><option value="4">★★★★</option><option value="3">★★★</option><option value="2">★★</option><option value="1">★</option></select></div>
-<div class="fld"><label>제목 *</label><input id="wTitle"></div>
-<div class="fld full"><label>후기 내용 *</label><textarea id="wText" rows="6"></textarea></div>
-</div>
-<button class="book" onclick="submitReview()">후기 등록</button>
-</div></div>
-
-<div class="page" id="p-jobs"><div class="content">
-<button class="back" onclick="go('home')">← 홈으로</button>
-<div class="heading"><h2 data-t="jb_h">JOIN MONGOLIA DREAM</h2><p data-t="jb_s">몽골의 아름다움을 함께 만들어 갈 동료를 찾습니다. (학교 프로젝트용 가상 공고)</p></div>
-<div id="jobList"></div>
-<div class="contact" style="max-width:none">
-<h3>복지 · 근무 조건</h3>
-<div data-t="jb_ben">• 4대 보험 · 연 1회 몽골 현지 팸투어 지원<br>• 유연 근무제 · 자기계발비 지원<br>• 여행 상품 임직원 할인</div>
-<h3 style="margin-top:18px">전형 절차</h3>
-<div data-t="jb_proc">서류 접수 → 1차 면접 → 최종 면접 → 합격 발표</div>
-<h3 style="margin-top:18px">채용 문의</h3>
-<div>📧 <span data-t="ct_email">contact@mongoliadream.example</span> · 📞 <span data-t="ct_phone">02-1234-5678</span></div>
-</div>
-</div></div>
-
-<div class="page" id="p-apply"><div class="content">
-<button class="back" onclick="go('jobs')">← 채용 목록</button>
-<h2>입사 지원서</h2>
-<div class="notice">학교 프로젝트용 가상 지원서입니다. 주민번호 등 민감한 정보는 입력하지 마세요.</div>
-<div class="fg">
-<div class="fld full"><label>지원 분야</label><input id="aJob" readonly></div>
-<div class="fld"><label>이름 *</label><input id="aName"></div>
-<div class="fld"><label>연락처 *</label><input id="aPhone" type="tel"></div>
-<div class="fld full"><label>이메일 *</label><input id="aEmail" type="email"></div>
-<div class="fld full"><label>자기소개 · 지원 동기 *</label><textarea id="aIntro" rows="6"></textarea></div>
-</div>
-<label class="agree"><input type="checkbox" id="aAgree"> 개인정보 수집·이용에 동의합니다.</label>
-<button class="book" onclick="submitApply()">지원서 제출</button>
-</div></div>
-
-<div class="page" id="p-admin"><div class="content">
-<h2>관리 페이지</h2>
-<div class="notice">예약·후기·지원서는 <b>이 브라우저에 저장된 것만</b> 보여요. 다른 사람의 내용은 Formspree 메일로 받아야 해요.</div>
-<div id="adminBox"></div>
-</div></div>
-
-<footer>
-<h2>MONGOLIA DREAM.</h2>
-<p data-t="f1">Discover Your Own Mongolia</p>
-<p data-t="f2">몽골의 아름다움을 당신의 추억으로.</p>
-<p>📞 <span data-t="ct_phone">02-1234-5678</span> · 📧 <span data-t="ct_email">contact@mongoliadream.example</span></p>
-<p><a onclick="go('jobs')">채용 정보</a></p>
-<p data-t="f3">© 2026 MONGOLIA DREAM. School Project.</p>
-</footer>
-
-<div class="modal" id="modal" onclick="if(event.target===this)this.style.display='none'">
-<div class="modalbox">
-<button class="close" onclick="$('modal').style.display='none'">×</button>
-<div class="stars" id="mStars"></div>
-<h2 id="mTitle"></h2><div id="mText"></div><p id="mAuthor"></p>
-</div></div>
-
-<div class="modal" id="loginModal" onclick="if(event.target===this)this.style.display='none'">
-<div class="modalbox">
-<button class="close" onclick="$('loginModal').style.display='none'">×</button>
-<h2>관리자 로그인</h2>
-<input id="lid" placeholder="아이디">
-<input type="password" id="pw" placeholder="비밀번호">
-<button class="book" onclick="login()">로그인</button>
-</div></div>
+/* ===== 초기 실행 ===== */
+window.onload = function(){
+  $('hero').insertAdjacentHTML('afterbegin', photo('hero', 'mongolia,steppe,horse', 1, 'bgph'));
+  $('rBanner').insertAdjacentHTML('afterbegin', photo('rbanner', 'mongolia,ger,sky', 2, 'bgph'));
+  renderPackages();
+  renderJobs();
+  applyStatic();
+};
+</script>
+</body>
+</html>
