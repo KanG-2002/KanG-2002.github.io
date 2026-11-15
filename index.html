@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,20 +7,22 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,'Malgun Gothic',sans-serif;background:#faf9f5;color:#333}
-header{background:white;padding:22px 7%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
+header{background:white;padding:22px 7%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
 .logo{font-size:23px;font-weight:bold;color:#405943;cursor:pointer}
 nav button{border:0;background:none;margin:5px;cursor:pointer;font-weight:bold}
-.hero{height:520px;background:linear-gradient(#0005,#0005),url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600') center/cover;display:flex;align-items:center;padding:10%;color:white}
+.hero{height:600px;background-size:cover;background-position:center;display:flex;align-items:center;padding:10%;color:white;background-color:#405943}
 .hero h1{font-size:50px}
-button{cursor:pointer}
-.mainbtn{background:#b58b52;color:white;border:0;padding:15px 28px}
+.hero .btns{display:flex;gap:12px;flex-wrap:wrap}
+button{cursor:pointer;font-family:inherit}
+.mainbtn{background:#b58b52;color:white;border:0;padding:15px 28px;font-size:16px}
+.subbtn{background:transparent;color:white;border:2px solid white;padding:13px 26px;font-size:16px}
 section{padding:65px 8%}
 .heading{text-align:center;margin-bottom:40px}
 .heading h2{font-size:32px;color:#405943}
 .about{text-align:center;line-height:2;color:#777;max-width:750px;margin:auto}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{background:white;cursor:pointer;box-shadow:0 5px 20px #0001}
-.card img{width:100%;height:230px;object-fit:cover}
+.card img{width:100%;height:230px;object-fit:cover;background:#ddd}
 .card div{padding:22px}
 .card h3{color:#405943}
 .card p{color:#777;line-height:1.7}
@@ -30,19 +31,35 @@ section{padding:65px 8%}
 .review{background:white;padding:24px;margin:12px 0;cursor:pointer}
 .stars{color:#d3a354}
 .page{display:none}
-.banner{height:350px;background-position:center;background-size:cover;display:flex;align-items:center;justify-content:center;text-align:center;color:white}
+.banner{height:350px;background-position:center;background-size:cover;background-color:#405943;display:flex;align-items:center;justify-content:center;text-align:center;color:white}
 .banner h1{font-size:45px;text-shadow:0 2px 8px #333}
 .content{max-width:950px;margin:auto;padding:45px 20px}
 .content p{line-height:2;color:#777}
 .info{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:30px 0}
 .info div{background:#eeece4;text-align:center;padding:25px}
-.route{border-left:3px solid #b58b52;padding:5px 20px;margin:18px 0}
 .back{background:#405943;color:white;padding:12px 22px;border:0;margin:15px 0}
+.durs{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0 25px}
+.dur,.num{background:white;border:2px solid #405943;color:#405943;padding:12px 20px;font-weight:bold;font-size:15px}
+.dur.on,.num.on{background:#405943;color:white}
+.day{display:grid;grid-template-columns:300px 1fr;gap:20px;background:white;margin:16px 0;box-shadow:0 3px 14px #0001;border-left:4px solid #b58b52}
+.day img{width:100%;height:200px;object-fit:cover;background:#ddd}
+.day div{padding:18px}
+.day h3{margin:0 0 8px;color:#405943}
+.day p{margin:0}
+.inquiry{background:#eeece4;padding:30px;line-height:2;margin:15px 0}
+.book{background:#b58b52;color:white;border:0;padding:16px 34px;font-size:17px;margin:20px 0}
+.nums{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 25px}
+.num{width:52px;padding:12px 0}
+table{width:100%;border-collapse:collapse;background:white;margin:10px 0}
+th,td{padding:14px;border:1px solid #ddd;text-align:center}
+th{background:#405943;color:white}
+tr.total td{background:#f3e9d8;font-weight:bold;font-size:18px;color:#8a5f25}
+.hidden{display:none}
 footer{background:#263c30;color:white;text-align:center;padding:45px}
-.modal{display:none;position:fixed;inset:0;background:#0009;align-items:center;justify-content:center;padding:20px}
+.modal{display:none;position:fixed;inset:0;background:#0009;align-items:center;justify-content:center;padding:20px;z-index:10}
 .modalbox{background:white;padding:35px;max-width:500px;width:100%;position:relative}
 .close{float:right;border:0;background:none;font-size:25px}
-@media(max-width:700px){.cards{grid-template-columns:1fr}.info{grid-template-columns:1fr}.hero h1{font-size:35px}nav button{font-size:11px}}
+@media(max-width:700px){.cards,.info{grid-template-columns:1fr}.day{grid-template-columns:1fr}.hero h1{font-size:35px}nav button{font-size:11px}}
 </style>
 </head>
 <body>
@@ -56,12 +73,15 @@ footer{background:#263c30;color:white;text-align:center;padding:45px}
 </header>
 
 <div id="home">
-<div class="hero">
+<div class="hero" id="heroBg">
 <div>
 <p>DISCOVER THE LAND OF BLUE SKY</p>
 <h1>당신의 꿈이 되는<br>몽골 여행</h1>
 <p>끝없이 펼쳐진 초원, 황금빛 사막, 아름다운 호수</p>
+<div class="btns">
 <button class="mainbtn" onclick="showTravel()">여행 패키지 보기 →</button>
+<button class="subbtn" onclick="allReviews()">여행 후기 보기</button>
+</div>
 </div>
 </div>
 
@@ -76,20 +96,7 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 
 <section style="background:#f0eee7" id="travel">
 <div class="heading"><h2>OUR TRAVEL PACKAGES</h2><p>당신이 꿈꾸는 몽골을 선택하세요.</p></div>
-<div class="cards">
-<div class="card" onclick="detail('gobi')">
-<img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=900">
-<div><h3>01. 고비사막 여행</h3><p>황금빛 모래언덕과 사막의 낭만을 경험하세요.</p><span class="more">자세히 보기 →</span></div>
-</div>
-<div class="card" onclick="detail('central')">
-<img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?w=900">
-<div><h3>02. 중부 몽골 여행</h3><p>끝없는 초원과 유목민의 생활을 경험하세요.</p><span class="more">자세히 보기 →</span></div>
-</div>
-<div class="card" onclick="detail('lake')">
-<img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=900">
-<div><h3>03. 후브스굴 여행</h3><p>푸른 호수와 아름다운 산맥에서 힐링하세요.</p><span class="more">자세히 보기 →</span></div>
-</div>
-</div>
+<div class="cards" id="cardList"></div>
 </section>
 
 <section class="reviews">
@@ -102,23 +109,35 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 <div id="detail" class="page">
 <div class="banner" id="banner"><div><h1 id="title"></h1><p id="subtitle"></p></div></div>
 <div class="content">
-<button class="back" onclick="home()">← 홈으로</button>
+<button class="back" onclick="showTravel()">← 패키지 목록</button>
 <h2 id="heading"></h2>
 <p id="description"></p>
 <div class="info">
-<div><h3>여행 기간</h3><p id="days"></p></div>
 <div><h3>여행 스타일</h3><p id="style"></p></div>
 <div><h3>주요 체험</h3><p id="activity"></p></div>
+<div><h3>1인 1일 여행비</h3><p>$100</p></div>
 </div>
-<h2>추천 여행 일정</h2>
-<div id="route"></div>
+
+<h2>여행 기간 선택</h2>
+<div class="durs" id="durs"></div>
+<div id="plan"></div>
+
+<div id="bookArea" class="hidden">
+<button class="book" onclick="openBook()">예약하기</button>
+<div id="bookBox" class="hidden">
+<h2>인원 수</h2>
+<div class="nums" id="nums"></div>
+<div id="priceBox"></div>
+</div>
+</div>
+
 <h2 style="margin-top:55px">여행 패키지 리뷰</h2>
 <div id="packageReviews"></div>
 </div>
 </div>
 
 <div id="reviewPage" class="page">
-<div class="banner" style="background-image:url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1500')">
+<div class="banner" id="reviewBanner">
 <div><h1>TRAVEL REVIEWS</h1><p>여행자들의 소중한 이야기</p></div>
 </div>
 <div class="content">
@@ -146,35 +165,40 @@ MONGOLIA DREAM은 몽골의 아름다운 자연과 문화를 소개하는 가상
 </footer>
 
 <script>
+/* ===== 사진 설정 =====
+   img(키워드, 번호): 키워드에 맞는 실제 몽골 사진을 불러옵니다.
+   원하는 사진이 있으면 아래 img() 대신 사진 주소(또는 파일명)를 직접 넣으세요. */
+const PRICE=100; // 1인 1일 여행비(달러)
+function img(kw,n,w){w=w||800;return `https://loremflickr.com/${w}/${Math.round(w*0.6)}/mongolia,${kw}?lock=${n}`}
+
 const data={
 gobi:{
-title:"고비사막 여행",
-subtitle:"황금빛 모래언덕에서 만나는 특별한 순간",
-image:"https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1500",
+title:"고비사막 여행",subtitle:"황금빛 모래언덕에서 만나는 특별한 순간",cover:img('gobi,desert',11,1500),
 heading:"THE MAGIC OF GOBI DESERT",
 description:"끝없이 펼쳐진 황금빛 사막. 낙타를 타고 모래언덕을 거닐며 대자연의 웅장함을 경험하세요. 밤에는 쏟아지는 별빛을 감상할 수 있습니다.",
-days:"4박 5일",style:"사막 어드벤처",activity:"낙타 체험 · 별 관찰",
-route:["1일차 - 울란바토르 출발","2일차 - 바얀작 불타는 절벽","3일차 - 홍고린엘스 모래언덕","4일차 - 욜린암 계곡","5일차 - 울란바토르 귀환"]
+style:"사막 어드벤처",activity:"낙타 체험 · 별 관찰",
+start:["울란바토르 출발","ulaanbaatar,city"],end:["울란바토르 귀환","ulaanbaatar"],
+mid:[["바얀작 불타는 절벽","bayanzag,cliff"],["홍고린엘스 모래언덕","khongor,dunes"],["욜린암 계곡","yolyn,valley"],["차강소브라가 흰 절벽","gobi,canyon"],["낙타 트레킹과 별 관찰","camel,desert"]]
 },
 central:{
-title:"중부 몽골 여행",
-subtitle:"끝없는 초원 위에서 만나는 자유",
-image:"https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1500",
+title:"중부 몽골 여행",subtitle:"끝없는 초원 위에서 만나는 자유",cover:img('steppe,grassland',21,1500),
 heading:"THE BEAUTY OF CENTRAL MONGOLIA",
 description:"푸른 초원과 유목민의 전통이 살아 숨 쉬는 중부 몽골. 전통 게르에서 숙박하고 말을 타며 몽골의 진정한 매력을 느껴보세요.",
-days:"3박 4일",style:"자연 · 문화 체험",activity:"승마 · 게르 숙박",
-route:["1일차 - 울란바토르 출발","2일차 - 카라코룸 관광","3일차 - 오르혼 계곡 및 유목민 체험","4일차 - 울란바토르 귀환"]
+style:"자연 · 문화 체험",activity:"승마 · 게르 숙박",
+start:["울란바토르 출발","ulaanbaatar,city"],end:["울란바토르 귀환","ulaanbaatar"],
+mid:[["카라코룸 관광","karakorum,monastery"],["오르혼 계곡 및 유목민 체험","orkhon,valley"],["전통 게르 숙박","ger,steppe"],["초원 승마 체험","horse,steppe"],["테를지 국립공원","terelj,mountain"]]
 },
 lake:{
-title:"후브스굴 여행",
-subtitle:"몽골의 푸른 진주를 만나는 시간",
-image:"https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1500",
+title:"후브스굴 여행",subtitle:"몽골의 푸른 진주를 만나는 시간",cover:img('lake,khuvsgul',31,1500),
 heading:"THE BLUE PEARL OF MONGOLIA",
 description:"맑고 투명한 물빛이 아름다운 후브스굴 호수. 산과 숲으로 둘러싸인 자연 속에서 여유로운 시간을 보내세요.",
-days:"4박 5일",style:"힐링 · 자연 탐방",activity:"호수 보트 · 트레킹",
-route:["1일차 - 울란바토르 출발","2일차 - 무릉 도착 및 호수 이동","3일차 - 후브스굴 호수 탐방","4일차 - 트레킹 및 자유시간","5일차 - 귀환"]
+style:"힐링 · 자연 탐방",activity:"호수 보트 · 트레킹",
+start:["울란바토르 출발","ulaanbaatar,city"],end:["귀환","ulaanbaatar"],
+mid:[["무릉 도착 및 호수 이동","murun,steppe"],["후브스굴 호수 탐방","khuvsgul,lake"],["호수 보트 체험","lake,boat"],["숲속 트레킹","khuvsgul,forest"],["자유시간과 호숫가 휴식","khuvsgul,shore"]]
 }
 };
+const names={gobi:"고비사막",central:"중부 몽골",lake:"후브스굴"};
+const durList=[3,4,5,6]; // 박 수
 
 const reviews=[
 {id:1,type:"gobi",name:"김민지",title:"평생 잊지 못할 사막의 밤!",short:"사막에서 본 별은 정말 아름다웠어요.",text:"고비사막 여행은 제 인생에서 가장 특별한 경험이었습니다. 끝없이 펼쳐진 모래언덕과 낙타 체험도 좋았지만 밤하늘에 가득했던 별들이 가장 기억에 남아요."},
@@ -185,49 +209,79 @@ const reviews=[
 {id:6,type:"lake",name:"윤서아",title:"자연 속에서 완벽한 휴식",short:"조용하고 평화로운 여행이었어요.",text:"후브스굴 호수의 풍경은 정말 그림 같았습니다. 힐링이 필요한 사람에게 추천합니다."}
 ];
 
-function hide(){
-document.getElementById('home').style.display='none';
-document.getElementById('detail').style.display='none';
-document.getElementById('reviewPage').style.display='none';
-}
-function home(){
-hide();document.getElementById('home').style.display='block';window.scrollTo(0,0);
-}
-function showTravel(){
-home();document.getElementById('travel').scrollIntoView({behavior:'smooth'});
-}
+let cur=null,nights=0;
+const $=id=>document.getElementById(id);
+const bg=u=>`linear-gradient(#0005,#0005),url('${u}')`;
+
+function hide(){['home','detail','reviewPage'].forEach(i=>$(i).style.display='none')}
+function home(){hide();$('home').style.display='block';window.scrollTo(0,0)}
+function showTravel(){home();$('travel').scrollIntoView({behavior:'smooth'})}
+
 function detail(id){
-hide();document.getElementById('detail').style.display='block';
-let p=data[id];
-document.getElementById('banner').style.backgroundImage=`linear-gradient(#0005,#0005),url('${p.image}')`;
-document.getElementById('title').textContent=p.title;
-document.getElementById('subtitle').textContent=p.subtitle;
-document.getElementById('heading').textContent=p.heading;
-document.getElementById('description').textContent=p.description;
-document.getElementById('days').textContent=p.days;
-document.getElementById('style').textContent=p.style;
-document.getElementById('activity').textContent=p.activity;
-document.getElementById('route').innerHTML=p.route.map(x=>`<div class="route">${x}</div>`).join('');
-document.getElementById('packageReviews').innerHTML=reviews.filter(r=>r.type===id).map(r=>reviewCard(r)).join('');
+hide();$('detail').style.display='block';cur=id;nights=0;
+const p=data[id];
+$('banner').style.backgroundImage=bg(p.cover);
+$('title').textContent=p.title;$('subtitle').textContent=p.subtitle;
+$('heading').textContent=p.heading;$('description').textContent=p.description;
+$('style').textContent=p.style;$('activity').textContent=p.activity;
+$('durs').innerHTML=durList.map(n=>`<button class="dur" id="d${n}" onclick="pick(${n})">${n}박 ${n+1}일</button>`).join('')+`<button class="dur" id="d0" onclick="pick(0)">기타 문의</button>`;
+$('plan').innerHTML='<p>원하시는 여행 기간을 선택하면 일차별 일정과 사진이 나타납니다.</p>';
+$('bookArea').classList.add('hidden');$('bookBox').classList.add('hidden');
+$('packageReviews').innerHTML=reviews.filter(r=>r.type===id).map(reviewCard).join('');
 window.scrollTo(0,0);
 }
+
+function pick(n){
+document.querySelectorAll('.dur').forEach(b=>b.classList.remove('on'));
+$('d'+n).classList.add('on');
+$('bookBox').classList.add('hidden');
+if(n===0){
+nights=0;$('bookArea').classList.add('hidden');
+$('plan').innerHTML=`<div class="inquiry"><h3>기타 문의</h3>7박 이상 장기 여행, 단체 여행, 맞춤 일정 등은 별도로 문의해 주세요.<br>📧 contact@mongoliadream.example<br>📞 02-1234-5678 (평일 10:00 ~ 18:00)</div>`;
+return;}
+nights=n;const p=data[cur],days=n+1;
+let list=[p.start,...p.mid.slice(0,days-2),p.end];
+$('plan').innerHTML=list.map((s,i)=>`<div class="day"><img src="${img(s[1],i*7+cur.length*3,800)}" alt="${s[0]}" loading="lazy" onerror="this.style.visibility='hidden'"><div><h3>${i+1}일차</h3><p>${s[0]}</p></div></div>`).join('');
+$('bookArea').classList.remove('hidden');
+}
+
+function openBook(){
+$('bookBox').classList.remove('hidden');
+$('nums').innerHTML=Array.from({length:10},(_,i)=>`<button class="num" id="n${i+1}" onclick="price(${i+1})">${i+1}</button>`).join('');
+$('priceBox').innerHTML='<p>인원 수를 선택하면 가격표가 나타납니다.</p>';
+$('bookBox').scrollIntoView({behavior:'smooth'});
+}
+
+function price(n){
+document.querySelectorAll('.num').forEach(b=>b.classList.remove('on'));
+$('n'+n).classList.add('on');
+const days=nights+1,per=PRICE*days,total=per*n;
+$('priceBox').innerHTML=`<table>
+<tr><th>코스</th><th>기간</th><th>인원</th><th>1인 1일</th><th>1인 합계</th></tr>
+<tr><td>${names[cur]}</td><td>${nights}박 ${days}일</td><td>${n}명</td><td>$${PRICE}</td><td>$${per.toLocaleString()}</td></tr>
+<tr class="total"><td colspan="4">총 여행비 ($${PRICE} × ${days}일 × ${n}명)</td><td>$${total.toLocaleString()}</td></tr></table>`;
+}
+
 function reviewCard(r){
 return `<div class="review" onclick="openReview(${r.id})"><div class="stars">★★★★★</div><h3>${r.title}</h3><p>${r.short}</p><small>${r.name}</small><p class="more">자세히 보기 →</p></div>`;
 }
 function allReviews(){
-hide();document.getElementById('reviewPage').style.display='block';
-document.getElementById('allList').innerHTML=reviews.map(reviewCard).join('');
+hide();$('reviewPage').style.display='block';
+$('allList').innerHTML=reviews.map(reviewCard).join('');
 window.scrollTo(0,0);
 }
 function openReview(id){
-let r=reviews.find(x=>x.id===id);
-document.getElementById('modalTitle').textContent=r.title;
-document.getElementById('modalText').textContent=r.text;
-document.getElementById('modalAuthor').textContent=r.name+' · MONGOLIA DREAM 여행자';
-document.getElementById('modal').style.display='flex';
+const r=reviews.find(x=>x.id===id);
+$('modalTitle').textContent=r.title;$('modalText').textContent=r.text;
+$('modalAuthor').textContent=r.name+' · MONGOLIA DREAM 여행자';
+$('modal').style.display='flex';
 }
-function closeModal(){document.getElementById('modal').style.display='none'}
-document.getElementById('homeReviews').innerHTML=reviews.slice(0,3).map(reviewCard).join('');
+function closeModal(){$('modal').style.display='none'}
+
+$('heroBg').style.backgroundImage=bg(img('landscape,steppe',1,1600));
+$('reviewBanner').style.backgroundImage=bg(img('landscape,sky',2,1500));
+$('cardList').innerHTML=Object.keys(data).map((id,i)=>`<div class="card" onclick="detail('${id}')"><img src="${img(['gobi,desert','steppe,horse','lake,khuvsgul'][i],40+i,900)}" alt=""><div><h3>0${i+1}. ${data[id].title}</h3><p>${data[id].subtitle}</p><span class="more">자세히 보기 →</span></div></div>`).join('');
+$('homeReviews').innerHTML=reviews.slice(0,3).map(reviewCard).join('');
 </script>
 </body>
 </html>
