@@ -489,7 +489,7 @@ if(o.t==='select')h='<select data-k="'+k+'" class="'+req+'"><option value="">선
 else if(o.t==='area')h='<textarea data-k="'+k+'" rows="3">'+v+'</textarea>';
 else h='<input data-k="'+k+'" type="'+(o.t||'text')+'" value="'+v+'"'+(k==='depart'?' min="'+today+'"':'')+' class="'+req+'">';
 return '<div class="fld '+(o.t==='area'?'full':'')+'"><label>'+l+(o.opt?' (선택)':' *')+'</label>'+h+'</div>'}
-var G=['여자','기타'];
+var G=['여자','남자','기타'];
 function pickCar(id,e){
 if(isAdmin&&e&&e.target.closest&&e.target.closest('[data-t]'))return;
 B.car=id;var cs=document.querySelectorAll('#bookForm .car');
